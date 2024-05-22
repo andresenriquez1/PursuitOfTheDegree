@@ -7,7 +7,7 @@ export class Main_Scene extends Scene {
     constructor() {
         super();
         this.maze = new Maze();
-        this.initial_camera_location = Mat4.look_at(vec3(15, 40, 40), vec3(20, 0, 20), vec3(0, 1, 0));
+        this.initial_camera_location = Mat4.look_at(vec3(15, 50, 40), vec3(20, 0, 20), vec3(0, 1, 0));
     }
 
     display(context, program_state) {
