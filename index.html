@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pursuit of the Degree</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <script type="module">
+        import { tiny, defs } from './common.js';
+        import { Main_Scene } from './main-scene.js';
+
+        const canvas = document.createElement('canvas');
+        document.body.appendChild(canvas);
+        const webgl_manager = new tiny.Webgl_Manager(canvas, tiny.color(0, 0, 0, 1));
+        webgl_manager.scenes.push(new Main_Scene());
+        webgl_manager.render();
+    </script>
+</body>
+</html>
