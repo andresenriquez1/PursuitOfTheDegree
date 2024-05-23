@@ -74,4 +74,11 @@ export class Maze {
             }
         }
     }
+
+    checkEnd(position) {
+        const x = Math.floor(position[0]/2);
+        const z = Math.floor(position[2]/2);
+
+        return (x == 25 && z == 18);
+    }
 }

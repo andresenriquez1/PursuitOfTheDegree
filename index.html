@@ -9,7 +9,7 @@
             margin: 0;
             overflow: hidden;
         }
-        #start-screen, #game-canvas {
+        #start-screen, #game-canvas, #end-screen{
             position: absolute;
             top: 0;
             left: 0;
@@ -27,9 +27,17 @@
             background-size: cover;
             image-rendering: -webkit-optimize-contrast;
         }
-        #start-screen h1 {
+        #start-screen h1, #end-screen h1 {
             font-weight: bold;
             margin-bottom: 20px;
+        }
+        #end-screen {
+            display: none;
+            flex-direction: column;
+            color: white;
+            background: url('./assets/degree.png') no-repeat center center;
+            background-size:auto;
+            image-rendering: -webkit-optimize-contrast;
         }
         #game-canvas {
             display: none;
@@ -81,6 +89,13 @@
     <div id="game-canvas">
         <canvas id="canvas"></canvas>
     </div>
+
+    <div id="end-screen">
+        <h1>The End</h1>
+        <div id="button-container">
+            <button id="play-again">Play Again</button>
+        </div>
+    </div>
     <script type="module">
         import { tiny, defs } from './examples/common.js';
         import { Main_Scene } from './main-scene.js';
@@ -92,6 +107,8 @@
         const howToPlayButton = document.getElementById('how-to-play');
         const instructions = document.getElementById('instructions');
         const closeInstructionsButton = document.getElementById('close-instructions');
+        const endScreen = document.getElementById('end-screen');
+        const playAgainButton = document.getElementById('play-again');
 
         startGameButton.addEventListener('click', () => {
             console.log("click ne");
@@ -109,6 +126,18 @@
         closeInstructionsButton.addEventListener('click', () => {
             instructions.style.display = 'none';
         });
+
+        playAgainButton.addEventListener('click', () => {
+            endScreen.style.display = 'none';
+            startScreen.style.display = 'flex';
+        });
+
+        window.onReachEnd = () => {
+            gameCanvas.style.display = 'none';
+            endScreen.style.display = 'flex';
+        };
+
+        
     </script>
 </body>
 </html>

@@ -51,10 +51,22 @@ export class Main_Scene extends Scene {
                     break;
                 case 'ArrowUp':
                     this.player.move_forward();
+                    if (this.maze.checkEnd(this.player.position)) {
+                        console.log('the end');
+                        window.onReachEnd();
+                    }
+                    // if (checkEnd(this.player.position, this.maze)) window.onReachEnd(); 
                     break;
                 case 'ArrowDown':
                     this.player.move_backward();
+                    if (this.maze.checkEnd(this.player.position)) {
+                        console.log('the end');
+                        window.onReachEnd();
+                    }
+                    // if (checkEnd(this.player.position, this.maze)) window.onReachEnd();                  
                     break;
+                case 'Delete':
+                    window.onReachEnd();
             }
         });
     }
@@ -74,6 +86,8 @@ export class Main_Scene extends Scene {
         this.key_triggered_button("Move Player Back", ['ArrowDown'], () => this.player.move_backward(this.maze));
     }
     */
+
+    
 
     display(context, program_state) {
         //Setting the animation time
