@@ -1,5 +1,6 @@
 import { defs, tiny } from './common.js';
 import { Maze } from './maze.js';
+import { Player } from './player.js';
 
 const { vec3, vec4, color, Mat4, Light, Scene } = tiny;
 
@@ -7,6 +8,8 @@ export class Main_Scene extends Scene {
     constructor() {
         super();
         this.maze = new Maze();
+        this.player = new Player();
+        this.player.position = this.maze.start_position;
         this.initial_camera_location = Mat4.look_at(vec3(15, 50, 40), vec3(20, 0, 20), vec3(0, 1, 0));
     }
 

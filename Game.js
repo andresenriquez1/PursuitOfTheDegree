@@ -1,6 +1,6 @@
 import { defs, tiny } from './common.js';
-import { Player } from './assets/player.js';
-import { Maze } from './assets/maze.js';
+import { Player } from './player.js';
+import { Maze } from './maze.js';
 
 const { vec3, vec4, color, Mat4, Light, Shape, Material, Shader, Texture, Scene } = tiny;
 

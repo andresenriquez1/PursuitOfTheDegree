@@ -10,9 +10,11 @@ export class Maze {
             end: new Material(new defs.Phong_Shader(), { color: tiny.color(1.0, 0.0, 0.0, 1) }) // Red for end
         };
 
+        this.start_position = vec3(0,1,0);
+
         // Define a 20x20 complex maze layout with interconnected pathways and accessible start/end points
         this.maze_layout = [
-            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
             [1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1],
             [1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1],
@@ -39,6 +41,12 @@ export class Maze {
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3]
         ];
+    }
+
+    is_collision(position) {
+        const x = Math.floor(position[0] / 2);
+        const z = Math.floor(position[2] / 2);
+        return this.maze_layout[z] && this.maze_layout[z][x] === 1;
     }
 
     display(context, program_state) {
