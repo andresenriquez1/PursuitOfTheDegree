@@ -1,33 +1,48 @@
 import { defs, tiny } from './examples/common.js';
-const { vec3, Mat4, Shape, Material, Scene } = tiny;
+const { vec3, Mat4, Shape, Material, Scene, hex_color } = tiny;
+import { Maze } from './maze.js'
 
 export class Player {
-    constructor() {
-        this.position = vec3(0, 1, 0); // Ensure the player is within the camera's view
-        this.rotation = 0;
-        this.speed = 0.1;
-        this.shapes = { box: new defs.Cube() }; // Shape for the player
-        this.materials = { plastic: new Material(new defs.Phong_Shader(), { color: tiny.color(0.9, 0.5, 0.5, 1) }) }; // Material for the player
+    constructor(){
+        this.position = vec3(0, 1, 0);
+        this.rotation = 0.0;
+        this.speed = 2;
+        this.shapes = {
+            box: new defs.Cube()
+        }
+        this.materials = {
+            plastic: new Material(new defs.Phong_Shader(), {
+                color: hex_color("#ffffff"), ambient: 1
+            })
+        }
     }
-
-    move_forward(maze) {
-        nextPosition = this.position;
+    move_forward() {
+        let nextPosition = [...this.position];
         nextPosition[2] -= this.speed * Math.cos(this.rotation);
         nextPosition[0] -= this.speed * Math.sin(this.rotation);
-
+        this.position = nextPosition;
+        
+        //NOTE: When collsion detection is on, the block won't move forward.
+        /*
         if (!this.checkCollision(nextPosition, maze)) {
             this.position = nextPosition;
         }
+        */
     }
 
-    move_backward(maze) {
-        nextPosition = this.position;
+    move_backward() {
+        let nextPosition = [...this.position];
         nextPosition[2] += this.speed * Math.cos(this.rotation);
         nextPosition[0] += this.speed * Math.sin(this.rotation);
+        this.position = nextPosition;
 
+        //NOTE: When collsion detection is on, the block won't move backward.
+        /*
         if (!this.checkCollision(nextPosition, maze)) {
             this.position = nextPosition;
         }
+        */
+        
     }
 
     turn_left() {
@@ -52,7 +67,7 @@ export class Player {
     }
 
     display(context, program_state) {
-        const model_transform = Mat4.translation(...this.position).times(Mat4.rotation(this.rotation, 0, 1, 0));
+        const model_transform = Mat4.translation(...this.position).times(Mat4.scale(0.5, 0.5, 0.5)).times(Mat4.rotation(this.rotation, 0, 1, 0));
         this.shapes.box.draw(context, program_state, model_transform, this.materials.plastic);
     }
 

@@ -1,13 +1,21 @@
 import { defs, tiny } from './examples/common.js';
-const { vec3, Mat4, Shape, Material, Scene } = tiny;
+const { vec3, Mat4, Shape, Texture, Material, Scene } = tiny;
 
 export class Maze {
     constructor() {
         this.shapes = { box: new defs.Cube() };
         this.materials = { 
-            wall: new Material(new defs.Phong_Shader(), { color: tiny.color(0.5, 0.5, 0.5, 1) }),
-            start: new Material(new defs.Phong_Shader(), { color: tiny.color(0.0, 1.0, 0.0, 1) }), // Green for start
-            end: new Material(new defs.Phong_Shader(), { color: tiny.color(1.0, 0.0, 0.0, 1) }) // Red for end
+            wall: new Material(new defs.Textured_Phong(), { 
+                color: tiny.color(0.0, 0.0, 0.0, 1),
+                ambient: 1.0, 
+                texture: new Texture("assets/wall.png") //Current material for walls is a brick wall
+            }),
+            start: new Material(new defs.Phong_Shader(), { 
+                color: tiny.color(0.0, 1.0, 0.0, 1) 
+            }), // Green for start
+            end: new Material(new defs.Phong_Shader(), { 
+                color: tiny.color(1.0, 0.0, 0.0, 1) 
+            }) // Red for end
         };
 
         this.start_position = vec3(0,1,0);
@@ -23,7 +31,7 @@ export class Maze {
             [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1],
             [1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0], //
+            [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0], 
             [1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
             [1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0],
@@ -31,7 +39,7 @@ export class Maze {
             [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1],
             [1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1],
             [1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1],
-            [1, 0, 1, 1, 1, , 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+            [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
             [1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
             [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1],
             [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1],
