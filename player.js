@@ -1,4 +1,4 @@
-import { defs, tiny } from './common.js';
+import { defs, tiny } from './examples/common.js';
 const { vec3, Mat4, Shape, Material, Scene } = tiny;
 
 export class Player {

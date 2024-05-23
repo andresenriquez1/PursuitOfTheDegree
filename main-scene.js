@@ -1,4 +1,4 @@
-import { defs, tiny } from './common.js';
+import { defs, tiny } from './examples/common.js';
 import { Maze } from './maze.js';
 import { Player } from './player.js';
 
