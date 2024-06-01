@@ -3,12 +3,20 @@ const { vec3, Mat4, Shape, Texture, Material, Scene } = tiny;
 
 export class Maze {
     constructor() {
-        this.shapes = { box: new defs.Cube() };
+        this.shapes = { 
+            box: new defs.Cube(), 
+            floor: new defs.Square()
+        };
         this.materials = { 
             wall: new Material(new defs.Textured_Phong(), { 
                 color: tiny.color(0.0, 0.0, 0.0, 1),
                 ambient: 1.0, 
                 texture: new Texture("assets/wall.png") //Current material for walls is a brick wall
+            }),
+            tile: new Material(new defs.Textured_Phong(), {
+                color: tiny.color(0.0,0.0,0.0,1),
+                ambient: 1.0,
+                texture: new Texture("assets/tile.jpg")
             }),
             start: new Material(new defs.Phong_Shader(), { 
                 color: tiny.color(0.0, 1.0, 0.0, 1) 
@@ -53,9 +61,17 @@ export class Maze {
 
     display(context, program_state) {
         const wall_height = 3; // Height of the walls
+        let model_transform = Mat4.identity().times(Mat4.rotation(Math.PI/2, 1, 0, 0)).times(Mat4.scale(26.5, 20.5, 1)).times(Mat4.translation(0.95, 0.94, 1));
+        this.shapes.floor.arrays.texture_coord.forEach(
+            (v, i, l) => {
+                v[0] = v[0] * 20;
+                v[1] = v[1] * 20;
+            }
+        );
+        this.shapes.floor.draw(context, program_state, model_transform, this.materials.tile);
         for (let i = 0; i < this.maze_layout.length; i++) {
             for (let j = 0; j < this.maze_layout[i].length; j++) {
-                let model_transform = Mat4.translation(i * 2, wall_height / 2, j * 2).times(Mat4.scale(1, wall_height / 2, 1));
+                model_transform = Mat4.translation(i * 2, wall_height / 2, j * 2).times(Mat4.scale(1, wall_height / 2, 1));
                 if (this.maze_layout[i][j] === 1) {
                     this.shapes.box.draw(context, program_state, model_transform, this.materials.wall);
                 } else if (this.maze_layout[i][j] === 2) {
