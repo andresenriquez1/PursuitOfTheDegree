@@ -8,6 +8,7 @@ export class Player {
         this.direction = vec3(0, 0, 1);
         this.rotation = 0.0;
         this.speed = 2;
+        this.maze = new Maze();
         this.shapes = {
             box: new defs.Cube()
         }
@@ -32,7 +33,7 @@ export class Player {
 //         }
 //     }
 
-
+    //Right now the maze is hardcoded, so if we change that this may not work
     checkCollision(nextPosition) {
         
         const x = Math.floor(nextPosition[0] / 2);
@@ -62,11 +63,15 @@ export class Player {
 
     move_forward(){
         let next_position = this.position.plus(this.direction);
-        this.position = next_position;
+        if (!this.checkCollision(next_position)){
+            this.position = next_position;
+        }
     }
     move_backward(){
         let next_position = this.position.minus(this.direction);
-        this.position = next_position; 
+        if (!this.checkCollision(next_position)){
+            this.position = next_position;
+        }
     }
     turn_left(){
         const angle = -Math.PI / 2; // 90 degrees in radians

@@ -15,7 +15,7 @@ export class Game extends Scene {
     make_control_panel() {
         this.key_triggered_button("Move Forward", ["ArrowUp"], () => this.player.move_forward(this.maze));
         this.new_line();
-        this.key_triggered_button("Move Backward", ["ArrowDown"], () => this.player.move_forward(this.maze));
+        this.key_triggered_button("Move Backward", ["ArrowDown"], () => this.player.move_backward(this.maze));
         this.new_line();
         this.key_triggered_button("Turn Left", ["ArrowLeft"], () => this.player.turn_left());
         this.new_line();
