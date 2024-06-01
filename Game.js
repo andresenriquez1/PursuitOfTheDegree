@@ -22,7 +22,7 @@ export class Game extends Scene {
     }
 
     display(context, program_state) {
-        program_state.set_camera(Mat4.look_at(vec3(26, 60, 20), vec3(26, 0, 20), vec3(0, 0, -1)));
+        program_state.set_camera(Mat4.look_at(vec3(26, 80, 20), vec3(26, 0, 20), vec3(0, 0, -1)));
         program_state.projection_transform = Mat4.perspective(Math.PI / 4, context.width / context.height, 0.1, 1000);
 
         const light_position = vec4(0, 10, 10, 1);
