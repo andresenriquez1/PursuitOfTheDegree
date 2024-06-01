@@ -29,6 +29,8 @@ export class Maze {
         this.start_position = vec3(0,1,0);
 
         // Define a 20x20 complex maze layout with interconnected pathways and accessible start/end points
+        //x is the row
+        //z is the column
         this.maze_layout = [
             [2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],

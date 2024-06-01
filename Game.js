@@ -7,8 +7,9 @@ const { vec3, vec4, color, Mat4, Light, Shape, Material, Shader, Texture, Scene 
 export class Game extends Scene {
     constructor() {
         super();
-        this.player = new Player();
+        
         this.maze = new Maze();
+        this.player = new Player(this.maze);
     }
 
     make_control_panel() {
