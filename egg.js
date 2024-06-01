@@ -12,7 +12,7 @@ export class Egg {
         }
         this.materials = {
             eggshell: new Material(new defs.Phong_Shader(), {
-                color: hex_color("#ffffff"), ambient: 1
+                color: hex_color("#000000"), ambient: 1
             })
         }
     }
