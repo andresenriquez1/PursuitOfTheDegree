@@ -10,12 +10,19 @@ export class Player {
         this.speed = 2;
         this.maze = new Maze();
         this.shapes = {
-            box: new defs.Cube()
-        }
+            sphere: new defs.Subdivision_Sphere(4), // Use a subdivision sphere for a smoother, more realistic shape
+            body: new defs.Cube(), // Use a cube for the body to provide a different texture
+        };
         this.materials = {
-            plastic: new Material(new defs.Phong_Shader(), {
-                color: hex_color("#00000"), ambient: 1
-            })
+            plastic: new Material(new defs.Textured_Phong(), {
+                color: hex_color("#ffffff"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
+                //texture: new Texture("assets/player_texture.jpg") // Add texture for more realism
+            }),
+            head: new Material(new defs.Textured_Phong(), {
+                color: hex_color("#ffcc99"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
+               // texture: new Texture("assets/player_head_texture.jpg") // Texture for the head
+            }),
+        
         }
     }
 //     move_forward() {
@@ -88,7 +95,24 @@ export class Player {
     }
     
     display(context, program_state) {
-        const model_transform = Mat4.translation(...this.position).times(Mat4.scale(0.5, 0.5, 0.5)).times(Mat4.rotation(this.rotation, 0, 1, 0));
-        this.shapes.box.draw(context, program_state, model_transform, this.materials.plastic);
+        // Model transform for the player's body
+        let body_transform = Mat4.translation(...this.position)
+            .times(Mat4.scale(0.3, 0.5, 0.3)) // Make the body thinner
+            .times(Mat4.rotation(this.rotation, 0, 1, 0));
+
+        // Draw the player's body
+        this.shapes.body.draw(context, program_state, body_transform, this.materials.plastic);
+
+        // Model transform for the player's head
+        let head_transform = body_transform
+            .times(Mat4.translation(0, 2, 0)) // Position the head on top of the body
+            .times(Mat4.scale(0.6, 0.6, 0.6)); // Make the head a bit larger
+
+        // Draw the player's head
+        this.shapes.sphere.draw(context, program_state, head_transform, this.materials.head);
     }
 }
+    // display(context, program_state) {
+    //     const model_transform = Mat4.translation(...this.position).times(Mat4.scale(0.5, 0.5, 0.5)).times(Mat4.rotation(this.rotation, 0, 1, 0));
+    //     this.shapes.box.draw(context, program_state, model_transform, this.materials.plastic);
+    // }
