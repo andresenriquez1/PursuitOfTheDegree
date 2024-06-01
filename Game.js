@@ -3,7 +3,7 @@ import { Player } from './player.js';
 import { Maze } from './maze.js';
 import { Egg } from './egg.js';
 
-const { vec3, vec4, color, Mat4, Light, Shape, Material, Shader, Texture, Scene } = tiny;
+const { vec3, vec4, color, Mat4, Light, Vector, Scene } = tiny;
 
 export class Game extends Scene {
     constructor() {
@@ -16,6 +16,10 @@ export class Game extends Scene {
 
         //Boolean to change POVs
         this.pov = false;
+        
+        // Camera state
+        this.current_camera_position = vec3(0, 0, 0);
+        this.current_look_at_point = vec3(0, 0, 0);
     }
 
     make_control_panel() {
@@ -28,6 +32,11 @@ export class Game extends Scene {
         this.key_triggered_button("Turn Right", ["ArrowRight"], () => this.player.turn_right());
         this.new_line();
         this.key_triggered_button("Switching POV", ["p"], function() { this.pov = !this.pov }.bind(this))
+    }
+
+    // Linear interpolation function
+    lerp(a, b, t) {
+        return a.times(1 - t).plus(b.times(t));
     }
 
     display(context, program_state) {
@@ -46,11 +55,21 @@ export class Game extends Scene {
         if (this.pov){
             const player_position = this.player.get_position();
             const player_direction = this.player.get_direction();
+            
             // Calculate camera position directly behind and slightly above the player
             const camera_offset = vec3(0, 5, -5);
-            const camera_position = player_position.plus(player_direction.times(camera_offset[2])).plus(vec3(0, camera_offset[1], 0));            
-            const look_at_point = player_position.plus(player_direction.times(2));
-            program_state.set_camera(Mat4.look_at(camera_position, look_at_point, vec3(0, 1, 0)));
+            const target_camera_position = player_position.plus(player_direction.times(camera_offset[2])).plus(vec3(0, camera_offset[1], 0));            
+            const target_look_at_point = player_position.plus(player_direction.times(2));
+            
+            // Smoothly update the camera position            
+            // Interpolate between current and target positions for smooth transition
+            this.current_camera_position = this.lerp(Vector.from(this.current_camera_position), Vector.from(target_camera_position), 0.1);
+            this.current_look_at_point = this.lerp(Vector.from(this.current_look_at_point), Vector.from(target_look_at_point), 0.1);
+
+            // Calculate the new camera transform from the interpolated positions
+            const new_camera_transform = Mat4.look_at(this.current_camera_position, this.current_look_at_point, vec3(0, 1, 0));
+
+            program_state.set_camera(new_camera_transform);
         } 
         else{
             program_state.set_camera(Mat4.look_at(vec3(26, 80, 20), vec3(26, 0, 20), vec3(0, 0, -1)));
