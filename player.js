@@ -37,11 +37,11 @@ export class Player {
         this.position = nextPosition;
 
         //NOTE: When collsion detection is on, the block won't move backward.
-        /*
+        
         if (!this.checkCollision(nextPosition, maze)) {
             this.position = nextPosition;
         }
-        */
+        
         
     }
 
@@ -63,7 +63,7 @@ export class Player {
         }
 
         // Check collision with walls
-        return maze.maze_layout[x][z] === 1;
+        return maze.maze_layout[x+1][z] === 1 || maze.maze_layout[x][z+1] === 1;
     }
 
     display(context, program_state) {

@@ -51,14 +51,8 @@ export class Maze {
         ];
     }
 
-    is_collision(position) {
-        const x = Math.floor(position[0] / 2);
-        const z = Math.floor(position[2] / 2);
-        return this.maze_layout[z] && this.maze_layout[z][x] === 1;
-    }
-
     display(context, program_state) {
-        const wall_height = 2; // Height of the walls
+        const wall_height = 3; // Height of the walls
         for (let i = 0; i < this.maze_layout.length; i++) {
             for (let j = 0; j < this.maze_layout[i].length; j++) {
                 let model_transform = Mat4.translation(i * 2, wall_height / 2, j * 2).times(Mat4.scale(1, wall_height / 2, 1));
