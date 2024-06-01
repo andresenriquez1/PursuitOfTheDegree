@@ -45,8 +45,11 @@ export class Game extends Scene {
 
         if (this.pov){
             const player_position = this.player.get_position();
-            const camera_position = player_position.plus(vec3(0, 10, 0));
-            const look_at_point = player_position.plus(this.player.get_direction().times(2));
+            const player_direction = this.player.get_direction();
+            // Calculate camera position directly behind and slightly above the player
+            const camera_offset = vec3(0, 5, -5);
+            const camera_position = player_position.plus(player_direction.times(camera_offset[2])).plus(vec3(0, camera_offset[1], 0));            
+            const look_at_point = player_position.plus(player_direction.times(2));
             program_state.set_camera(Mat4.look_at(camera_position, look_at_point, vec3(0, 1, 0)));
         } 
         else{
