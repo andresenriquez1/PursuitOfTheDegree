@@ -62,7 +62,7 @@ export class Maze {
     }
 
     display(context, program_state) {
-        const wall_height = 3; // Height of the walls
+        const wall_height = 5; // Height of the walls
         let model_transform = Mat4.identity().times(Mat4.rotation(Math.PI/2, 1, 0, 0)).times(Mat4.scale(26.5, 20.5, 1)).times(Mat4.translation(0.95, 0.94, 1));
         this.shapes.floor.arrays.texture_coord.forEach(
             (v, i, l) => {
