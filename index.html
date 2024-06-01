@@ -1,143 +1,27 @@
+<!-- Graphics Example Code.  
+    index.html - The web page document containing the canvas (drawing surface).  It launches your JavaScript files.
+-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="En">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pursuit of the Degree</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-        #start-screen, #game-canvas, #end-screen{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #start-screen {
-            display: flex;
-            flex-direction: column;
-            color: black;
-            background: url('./assets/hall.png') no-repeat center center;
-            background-size: cover;
-            image-rendering: -webkit-optimize-contrast;
-        }
-        #start-screen h1, #end-screen h1 {
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        #end-screen {
-            display: none;
-            flex-direction: column;
-            color: white;
-            background: url('./assets/degree.png') no-repeat center center;
-            background-size:auto;
-            image-rendering: -webkit-optimize-contrast;
-        }
-        #game-canvas {
-            display: none;
-            background: #000;
-        }
-        #button-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        button {
-            margin: 0 10px;
-            padding: 10px 20px;
-            font-size: 18px;
-        }
-        #instructions {
-            display: none;
-            position: absolute;
-            top: 25%;
-            right: 10%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-        #instructions p {
-            margin: 10px 0;
-        }
-    </style>
+    <meta charset="UTF-8"/>
+    <link href="assets/fav.ico" rel="icon">
+    <title>Tiny Graphics</title>
 </head>
-<body>
-    <div id="start-screen">
-        <h1>Pursuit of the Degree</h1>
-        <div id="button-container">
-            <button id="start-game">Start Game</button>
-            <button id="how-to-play">How to Play</button>
-        </div>
+<body style="background: White">
+<!-- Begin typing your web page here. -->
+<!-- The following code embeds a WebGL canvas panel, loads certain scene(s), and displays panel(s) of their controls.-->
+<div class="canvas-widget" id="main-canvas"></div>
+<script type=module>
+    // ********************* THE ENTRY POINT OF YOUR WHOLE PROGRAM STARTS HERE *********************
+    // Indicate which element on the page you want the Canvas_Widget to replace with a 3D WebGL area:
+    const element_to_replace = document.querySelector("#main-canvas");
+    import {Main_Scene, Additional_Scenes, Canvas_Widget} from './main-scene.js';
+    // Import the file that defines a scene.
+    const scenes = [Main_Scene, ...Additional_Scenes].map(scene => new scene());
+    // This line creates your scene.
+    new Canvas_Widget(element_to_replace, scenes);
+</script>
 
-        <div id="instructions" style="display:none;">
-            <p>Use arrow keys to navigate through the maze.</p>
-            <p>Reach the end point marked in red to win.</p>
-            <p>Health Bar Indicates how much time you have left</p>
-            <p>The egg is also trying to catch you, if he does you lose</p>
-            <button id="close-instructions">Close</button>
-        </div>
-    </div>
-    <div id="game-canvas">
-        <canvas id="canvas"></canvas>
-    </div>
-
-    <div id="end-screen">
-        <h1>The End</h1>
-        <div id="button-container">
-            <button id="play-again">Play Again</button>
-        </div>
-    </div>
-    <script type="module">
-        import { tiny, defs } from './examples/common.js';
-        import { Main_Scene } from './main-scene.js';
-
-        const startScreen = document.getElementById('start-screen');
-        const gameCanvas = document.getElementById('game-canvas');
-        const canvas = document.getElementById('canvas');
-        const startGameButton = document.getElementById('start-game');
-        const howToPlayButton = document.getElementById('how-to-play');
-        const instructions = document.getElementById('instructions');
-        const closeInstructionsButton = document.getElementById('close-instructions');
-        const endScreen = document.getElementById('end-screen');
-        const playAgainButton = document.getElementById('play-again');
-
-        startGameButton.addEventListener('click', () => {
-            console.log("click ne");
-            startScreen.style.display = 'none';
-            gameCanvas.style.display = 'flex';
-            const webgl_manager = new tiny.Webgl_Manager(canvas, tiny.color(0, 0, 0, 1));
-            webgl_manager.scenes.push(new Main_Scene());
-            webgl_manager.render();
-        });
-
-        howToPlayButton.addEventListener('click', () => {
-            instructions.style.display = 'block';
-        });
-
-        closeInstructionsButton.addEventListener('click', () => {
-            instructions.style.display = 'none';
-        });
-
-        playAgainButton.addEventListener('click', () => {
-            endScreen.style.display = 'none';
-            startScreen.style.display = 'flex';
-        });
-
-        window.onReachEnd = () => {
-            gameCanvas.style.display = 'none';
-            endScreen.style.display = 'flex';
-        };
-
-        
-    </script>
 </body>
 </html>
