@@ -8,7 +8,6 @@ const { vec3, vec4, color, Mat4, Light, Shape, Material, Shader, Texture, Scene 
 export class Game extends Scene {
     constructor() {
         super();
-
         //Objects in the scene
         this.maze = new Maze();
         this.player = new Player(this.maze);
@@ -16,7 +15,7 @@ export class Game extends Scene {
 
 
         //Boolean to change POVs
-        this.pov = true;
+        this.pov = false;
     }
 
     make_control_panel() {
@@ -46,8 +45,8 @@ export class Game extends Scene {
 
         if (this.pov){
             const player_position = this.player.get_position();
-            const camera_position = player_position.plus(vec3(0, 3, -10));
-            const look_at_point = player_position.plus(this.player.get_direction().times(5));
+            const camera_position = player_position.plus(vec3(0, 10, 0));
+            const look_at_point = player_position.plus(this.player.get_direction().times(2));
             program_state.set_camera(Mat4.look_at(camera_position, look_at_point, vec3(0, 1, 0)));
         } 
         else{
