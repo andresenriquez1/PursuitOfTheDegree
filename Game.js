@@ -14,6 +14,7 @@ export class Game extends Scene {
         this.player = new Player(this.maze);
         this.egg = new Egg();
 
+
         //Boolean to change POVs
         this.pov = true;
     }
@@ -31,14 +32,18 @@ export class Game extends Scene {
     }
 
     display(context, program_state) {
-        program_state.projection_transform = Mat4.perspective(Math.PI / 4, context.width / context.height, 0.1, 1000);
 
+        context.context.clearColor(0.5, 0.8, 0.9, 1.0);
+        
+        program_state.projection_transform = Mat4.perspective(Math.PI / 4, context.width / context.height, 0.1, 1000);
+        
         const light_position = vec4(0, 10, 10, 1);
         program_state.lights = [new Light(light_position, color(1, 1, 1, 1), 1000)];
 
         this.egg.display(context, program_state);
         this.player.display(context, program_state);
         this.maze.display(context, program_state);
+
         if (this.pov){
             const player_position = this.player.get_position();
             const camera_position = player_position.plus(vec3(0, 3, -10));
@@ -48,5 +53,6 @@ export class Game extends Scene {
         else{
             program_state.set_camera(Mat4.look_at(vec3(26, 80, 20), vec3(26, 0, 20), vec3(0, 0, -1)));
         }
+
     }
 }
