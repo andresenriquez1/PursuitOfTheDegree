@@ -5,8 +5,10 @@ import { Maze } from './maze.js'
 export class Player {
     constructor(){
         this.position = vec3(0, 1, 0);
+        this.direction = vec3(0,0,-1);
         this.rotation = 0.0;
         this.speed = 2;
+        this.maze = new Maze();
         this.shapes = {
             box: new defs.Cube()
         }
@@ -17,10 +19,13 @@ export class Player {
         }
     }
     move_forward() {
-        let nextPosition = [...this.position];
-        nextPosition[2] -= this.speed * Math.cos(this.rotation);
-        nextPosition[0] -= this.speed * Math.sin(this.rotation);
-        this.position = nextPosition;
+        let nextPosition = this.position.plus(this.direction);
+        if (!this.is_collision(nextPosition))
+            this.position = nextPosition;
+        // let nextPosition = [...this.position];
+        // nextPosition[2] -= this.speed * Math.cos(this.rotation);
+        // nextPosition[0] -= this.speed * Math.sin(this.rotation);
+        // this.position = nextPosition;
         
         //NOTE: When collsion detection is on, the block won't move forward.
         /*
@@ -31,16 +36,18 @@ export class Player {
     }
 
     move_backward() {
-        let nextPosition = [...this.position];
-        nextPosition[2] += this.speed * Math.cos(this.rotation);
-        nextPosition[0] += this.speed * Math.sin(this.rotation);
-        this.position = nextPosition;
+        if (!is_collision(this.position.minus(this.direction)))
+            this.position = this.position.minus(this.direction);
+        // let nextPosition = vec3(this.position);
+        // nextPosition.z += this.speed * Math.cos(this.rotation);
+        // nextPosition.x += this.speed * Math.sin(this.rotation);
+        // this.position = nextPosition;
 
         //NOTE: When collsion detection is on, the block won't move backward.
         
-        if (!this.checkCollision(nextPosition, maze)) {
-            this.position = nextPosition;
-        }
+        // if (!this.checkCollision(nextPosition)) {
+        //     this.position = nextPosition;
+        // }
         
         
     }
@@ -53,17 +60,21 @@ export class Player {
         this.rotation -= Math.PI / 16;
     }
 
-    checkCollision(nextPosition, maze) {
-        const x = Math.floor(nextPosition[0] / 2);
-        const z = Math.floor(nextPosition[2] / 2);
+    // checkCollision(nextPosition) {
+    //     const x = Math.floor(nextPosition.x / 2);
+    //     const z = Math.floor(nextPosition.z / 2);
 
-        // Check bounds
-        if (x < 0 || x >= maze.maze_layout.length || z < 0 || z >= maze.maze_layout[0].length) {
-            return true;
-        }
+    //     // Check bounds
+    //     if (x < 0 || x >= this.maze.maze_layout.length || z < 0 || z >= this.maze.maze_layout[0].length) {
+    //         return true;
+    //     }
 
-        // Check collision with walls
-        return maze.maze_layout[x+1][z] === 1 || maze.maze_layout[x][z+1] === 1;
+    //     // Check collision with walls
+    //     return this.maze.maze_layout[x+1][z] === 1;
+    // }
+
+    is_collision(nextPosition) {
+        return (this.maze.maze_layout[nextPosition.x][nextPosition.z] === 1)
     }
 
     display(context, program_state) {
