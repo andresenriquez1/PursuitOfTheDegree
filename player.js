@@ -54,13 +54,14 @@ export class Player {
     //Right now the maze is hardcoded, so if we change that this may not work
     checkCollision(nextPosition) {
         
+        console.log(nextPosition,"next");
         const x = Math.floor(nextPosition[0] / 2);
         const z = Math.floor(nextPosition[2] / 2);
 
-        console.log(x,"x");
-        console.log(z,"z");
+        // console.log(x,"x");
+        // console.log(z,"z");
 
-        console.log(this.maze.maze_layout[z][x], "layout");
+        console.log(this.maze.maze_layout[x][z], "layout");
 
         // Check bounds
         // if (x < 0 || x >= this.maze.maze_layout.length || z < 0 || z >= this.maze.maze_layout[0].length) {
