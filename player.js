@@ -80,19 +80,43 @@ export class Player {
             this.position = next_position;
         }
     }
-    turn_left(){
+    turn_left() {
         const angle = -Math.PI / 2; // 90 degrees in radians
         const cos = Math.cos(angle);
         const sin = Math.sin(angle);
-        this.direction = vec3(cos * this.direction[0] - sin * this.direction[2], this.direction[1], sin * this.direction[0] + cos * this.direction[2]);
+        const [x, y, z] = this.direction;
+        this.direction = vec3(
+            cos * x - sin * z, 
+            y, 
+            sin * x + cos * z
+        );
     }
-    
-    turn_right(){
+
+    turn_right() {
         const angle = Math.PI / 2; // -90 degrees in radians
         const cos = Math.cos(angle);
         const sin = Math.sin(angle);
-        this.direction = vec3(cos * this.direction[0] - sin * this.direction[2], this.direction[1], sin * this.direction[0] + cos * this.direction[2]);
+        const [x, y, z] = this.direction;
+        this.direction = vec3(
+            cos * x - sin * z, 
+            y, 
+            sin * x + cos * z
+        );
     }
+    // turn_left(){
+    //     const angle = -Math.PI / 2; // 90 degrees in radians
+    //     const cos = Math.cos(angle);
+    //     const sin = Math.sin(angle);
+    //     this.direction = vec3(cos * this.direction[0] - sin * this.direction[2], this.direction[1], sin * this.direction[0] + cos * this.direction[2]);
+    // }
+    
+    // turn_right(){
+    //     const angle = Math.PI / 2; // -90 degrees in radians
+    //     const cos = Math.cos(angle);
+    //     const sin = Math.sin(angle);
+    //     this.direction = vec3(cos * this.direction[0] - sin * this.direction[2], this.direction[1], sin * this.direction[0] + cos * this.direction[2]);
+    //     console.log(this.direction);
+    // }
     
     display(context, program_state) {
         // Model transform for the player's body
