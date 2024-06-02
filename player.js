@@ -36,40 +36,12 @@ export class Player {
             }),
         };
     }
-//     move_forward() {
-//         const nextPosition = this.position.plus(vec3(this.speed * Math.sin(this.rotation), 0, this.speed * Math.cos(this.rotation)));
-//         //console.log(nextPosition,"nextPosition");
-//         if (!this.checkCollision(nextPosition)) {
-//             this.position = nextPosition;
-//         }
-//     }
 
-//     move_backward() {
-//         const nextPosition = this.position.minus(vec3(this.speed * Math.sin(this.rotation), 0, this.speed * Math.cos(this.rotation)));
-//         if (!this.checkCollision(nextPosition)) {
-//             this.position = nextPosition;
-//         }
-//     }
-
-    //Right now the maze is hardcoded, so if we change that this may not work
-    checkCollision(nextPosition) {
-        
+    checkCollision(nextPosition, maze) {
         console.log(nextPosition,"next");
         const x = Math.floor(nextPosition[0] / 2);
         const z = Math.floor(nextPosition[2] / 2);
-
-        // console.log(x,"x");
-        // console.log(z,"z");
-
-        console.log(this.maze.maze_layout[x][z], "layout");
-
-        // Check bounds
-        // if (x < 0 || x >= this.maze.maze_layout.length || z < 0 || z >= this.maze.maze_layout[0].length) {
-        //     return true;
-        // }
-
-        // Check collision with walls
-        return this.maze.maze_layout[x][z] === 1; // Notice the use of z and x to match maze layout
+        return maze.maze_layout[x][z] === 1; // Notice the use of z and x to match maze layout
     }
     
     get_position() {
@@ -79,16 +51,19 @@ export class Player {
     get_direction(){
         return this.direction;
     }
-
-    move_forward(){
+    
+    //Pass the maze, so it can use the updated maze
+    move_forward(maze){
         let next_position = this.position.plus(this.direction);
-        if (!this.checkCollision(next_position)){
+        if (!this.checkCollision(next_position, maze)){
             this.position = next_position;
         }
     }
-    move_backward(){
+    
+    //Pass the maze, so it can use the updated maze
+    move_backward(maze){
         let next_position = this.position.minus(this.direction);
-        if (!this.checkCollision(next_position)){
+        if (!this.checkCollision(next_position, maze)){
             this.position = next_position;
         }
     }
@@ -115,20 +90,6 @@ export class Player {
             sin * x + cos * z
         );
     }
-    // turn_left(){
-    //     const angle = -Math.PI / 2; // 90 degrees in radians
-    //     const cos = Math.cos(angle);
-    //     const sin = Math.sin(angle);
-    //     this.direction = vec3(cos * this.direction[0] - sin * this.direction[2], this.direction[1], sin * this.direction[0] + cos * this.direction[2]);
-    // }
-    
-    // turn_right(){
-    //     const angle = Math.PI / 2; // -90 degrees in radians
-    //     const cos = Math.cos(angle);
-    //     const sin = Math.sin(angle);
-    //     this.direction = vec3(cos * this.direction[0] - sin * this.direction[2], this.direction[1], sin * this.direction[0] + cos * this.direction[2]);
-    //     console.log(this.direction);
-    // }
     
     display(context, program_state) {
         // Model transform for the player's body
@@ -171,6 +132,7 @@ export class Player {
         this.shapes.leg.draw(context, program_state, left_leg_transform, this.materials.limb);
         this.shapes.leg.draw(context, program_state, right_leg_transform, this.materials.limb);
     }
+    /*
     update_timer_and_health(program_state) {
         if (!this.start_time) {
             this.start_time = program_state.animation_time / 1000;
@@ -196,8 +158,5 @@ export class Player {
             this.shapes.health_bar.draw(context, program_state, bar_transform, material);
         }
     }
+    */
 }
-    // display(context, program_state) {
-    //     const model_transform = Mat4.translation(...this.position).times(Mat4.scale(0.5, 0.5, 0.5)).times(Mat4.rotation(this.rotation, 0, 1, 0));
-    //     this.shapes.box.draw(context, program_state, model_transform, this.materials.plastic);
-    // }

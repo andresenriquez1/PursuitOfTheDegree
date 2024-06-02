@@ -2,8 +2,8 @@ import { defs, tiny } from './examples/common.js';
 import { Player } from './player.js';
 import { Maze } from './maze.js';
 import { Egg } from './egg.js';
-import { HealthBar } from './HealthBar.js';
-import { Timer } from './Timer.js';
+//import { HealthBar } from './HealthBar.js';
+//import { Timer } from './Timer.js';
 
 const { vec3, vec4, color, Mat4, Light, Vector, Scene } = tiny;
 
@@ -18,8 +18,8 @@ export class Game extends Scene {
         this.maze = new Maze();
         this.player = new Player(this.maze);
         this.egg = new Egg();
-        this.health = new HealthBar(4);
-        this.timer = new Timer(180);
+      //this.health = new HealthBar(4);
+      //this.timer = new Timer(180);
 
         // Boolean to change POVs
         this.pov = false;
@@ -31,11 +31,9 @@ export class Game extends Scene {
     
 
     make_control_panel() {
-        this.key_triggered_button("Move Forward", ["ArrowUp"], () => this.player.move_forward());
-        this.key_triggered_button("Move Forward", ["ArrowUp"], () => this.player.move_forward());
+        this.key_triggered_button("Move Forward", ["ArrowUp"], () => this.player.move_forward(this.maze));
         this.new_line();
-        this.key_triggered_button("Move Backward", ["ArrowDown"], () => this.player.move_backward());
-        this.key_triggered_button("Move Backward", ["ArrowDown"], () => this.player.move_backward());
+        this.key_triggered_button("Move Backward", ["ArrowDown"], () => this.player.move_backward(this.maze));
         this.new_line();
         this.key_triggered_button("Turn Left", ["ArrowLeft"], () => this.player.turn_left());
         this.new_line();
@@ -56,10 +54,7 @@ export class Game extends Scene {
     }
 
     display(context, program_state) {
-        
-
         context.context.clearColor(0.5, 0.8, 0.9, 1.0);
-        
         
         program_state.projection_transform = Mat4.perspective(Math.PI / 4, context.width / context.height, 0.1, 1000);
         
@@ -74,10 +69,10 @@ export class Game extends Scene {
         this.maze.display(context, program_state);
 
         // Display the health bar
-        this.health.display(context, program_state);
+        //this.health.display(context, program_state);
 
         // Display the timer
-        this.timer.display(context, program_state);
+        //this.timer.display(context, program_state);
 
         if (this.pov){
             const player_position = this.player.get_position();
