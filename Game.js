@@ -11,6 +11,8 @@ export class Game extends Scene {
     constructor() {
         super();
         this.initializeGame();
+
+        this.count_rounds = 0;
     }
     initializeGame() {
         // Objects in the scene
@@ -95,6 +97,12 @@ export class Game extends Scene {
         } 
         else{
             program_state.set_camera(Mat4.look_at(vec3(26, 80, 20), vec3(26, 0, 20), vec3(0, 0, -1)));
+        }
+
+        if (this.maze.checkEnd(this.player.get_position())) {
+            this.count_rounds += 1;
+            this.regenerate_maze();
+            // console.log(`count rounds: $(this.count_rounds)`);
         }
 
     }
