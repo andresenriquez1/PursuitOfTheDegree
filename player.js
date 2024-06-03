@@ -15,14 +15,15 @@ export class Player {
         this.has_key = false; //if true can open a door and u win 
         this.shapes = {
             head: new Subdivision_Sphere(4), // Use a subdivision sphere for a smoother, more realistic shape
-            body: new Cube(), // Use a cube for the body to provide a different texture
-            arm: new Cylindrical_Tube(1, 10), // Use a cylinder for the arms
-            leg: new Cylindrical_Tube(1, 10), // Use a cylinder for the legs
+            body: new Subdivision_Sphere(1), // Use a cube for the body to provide a different texture
+            arm:  new Subdivision_Sphere(1), // Use a cylinder for the arms
+            leg: new Subdivision_Sphere(1), // Use a cylinder for the legs
             
         };
         this.materials = {
             plastic: new Material(new Textured_Phong(), {
                 color: hex_color("#ffffff"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
+               // texture: new Texture("assets/andres.jpg")
                 //texture: new Texture("assets/player_texture.jpg") // Add texture for more realism
             }),
             head: new Material(new Textured_Phong(), {
@@ -30,12 +31,12 @@ export class Player {
                 texture: new Texture("assets/andres.jpg") // Texture for the head
             }),
             body: new Material(new Textured_Phong(), {
-                color: hex_color("#0000ff"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
-                //texture: new Texture("assets/player_body_texture.jpg") // Add texture for the body
+                color: hex_color("ffcc99"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
+                texture: new Texture("assets/andres.jpg")// Add texture for the body
             }),
             limb: new Material(new Textured_Phong(), {
-                color: hex_color("#ffcc99"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
-                //texture: new Texture("assets/player_limb_texture.jpg") // Add texture for the limbs
+                color: hex_color("#ffcc99"), ambient: .5, diffusivity: .5, specularity: 0.5,
+                texture: new Texture("assets/andres.jpg") // Texture for the arms/legs
             }),
         };
 
@@ -183,11 +184,11 @@ export class Player {
         // Model transform for the player's arms
         let left_arm_transform = Mat4.translation(...this.position)
             .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
-            .times(Mat4.translation(-0.6, 0.5, 0)) // Position the left arm
+            .times(Mat4.translation(-.3, 0.5, 0)) // Position the left arm
             .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the arm thin and long
         let right_arm_transform = Mat4.translation(...this.position)
             .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
-            .times(Mat4.translation(0.6, 0.5, 0)) // Position the right arm
+            .times(Mat4.translation(0.3, 0.5, 0)) // Position the right arm
             .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the arm thin and long
 
         // Model transform for the player's legs
