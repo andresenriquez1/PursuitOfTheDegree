@@ -143,6 +143,6 @@ export class Maze {
         const x = Math.floor(position[0]/2);
         const z = Math.floor(position[2]/2);
 
-        return (x == 25 && z == 18);
+        return (x == 26 && z == 20);
     }
 }
