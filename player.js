@@ -2,6 +2,7 @@ import { defs, tiny } from './examples/common.js';
 const { vec3, Mat4, Shape, Material, Scene, hex_color, Texture } = tiny;
 const {Cube,Textured_Phong, Subdivision_Sphere,Cylindrical_Tube} = defs;
 import { Maze } from './maze.js'
+import { Custom_Face_Shader } from './Custom_Face_Shader.js';
 
 export class Player {
     constructor(){
@@ -15,7 +16,7 @@ export class Player {
         this.has_key = false; //if true can open a door and u win 
         this.shapes = {
             head: new Subdivision_Sphere(4), // Use a subdivision sphere for a smoother, more realistic shape
-            body: new Subdivision_Sphere(1), // Use a cube for the body to provide a different texture
+            body: new Subdivision_Sphere(2), // Use a cube for the body to provide a different texture
             arm:  new Subdivision_Sphere(1), // Use a cylinder for the arms
             leg: new Subdivision_Sphere(1), // Use a cylinder for the legs
             
@@ -28,7 +29,7 @@ export class Player {
             }),
             head: new Material(new Textured_Phong(), {
                 color: hex_color("#ffcc99"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
-                texture: new Texture("assets/andres.jpg") // Texture for the head
+                texture: new Texture("assets/minecraft.jpg") // Texture for the head
             }),
             body: new Material(new Textured_Phong(), {
                 color: hex_color("ffcc99"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
@@ -76,20 +77,23 @@ export class Player {
         }
         return false;
     }
-    checkForKey() {
+    checkForKey(maze) {
     
-            const key_x = Math.floor(this.maze.key_position[0] / 2);
-            const key_z = Math.floor(this.maze.key_position[2] / 2);
-            const player_x = Math.floor(this.position[0] / 2);
-            const player_z = Math.floor(this.position[2] / 2);
+            const key_x = Math.round(maze.key_position[0]/2 );
+            const key_z = Math.round(maze.key_position[2]/2 );
+
+            console.log(maze.key_position[2],"mazekey");
+            console.log(maze.key_position[0],"mazekey2");
+            const player_x = Math.round(this.position[0] / 2);
+            const player_z = Math.round(this.position[2] / 2);
 
             console.log(key_x,key_z, "keysss");
             console.log(player_x,player_x, "plasy");
             
 
-            if (key_x === player_x && key_z === player_z) {
+            if (key_x === player_x && key_z === player_z || (key_x <= player_x -1) && key_z <= player_z-1 || (key_x >= player_x+1) && (key_z >= player_z+1)) {
                 this.has_key = true;
-                this.position = vec3(25, 1, 18); // Move player to the end of the maze (25, 18)
+                this.position = vec3(52, 1, 40); // Move player to the end of the maze (25, 18)
                 //this.maze.key_position = null; // Remove key from the maze
                 console.log("Key collected!");
             }
@@ -113,7 +117,7 @@ export class Player {
         if (!this.checkCollision(next_position, maze, 'f')) {
             console.log(`Moving forward to: ${next_position}`);
             this.position = next_position;
-            this.checkForKey();
+            this.checkForKey(maze);
 
         }
     }
@@ -126,7 +130,7 @@ export class Player {
             console.log(`Moving backward to: ${next_position}`);
 
             this.position = next_position;
-            this.checkForKey();
+            this.checkForKey(maze);
         }
     }
 
@@ -178,8 +182,8 @@ export class Player {
         // Model transform for the player's head
         let head_transform = Mat4.translation(...this.position)
             .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
-            .times(Mat4.translation(0, 1.1, 0)) // Position the head on top of the body
-            .times(Mat4.scale(0.5, 0.5, 0.5)); // Make the head a bit larger
+            .times(Mat4.translation(0, 1, 0)) // Position the head on top of the body
+            .times(Mat4.scale(0.32, 0.32, 0.32)); // Make the head a bit larger
 
         // Model transform for the player's arms
         let left_arm_transform = Mat4.translation(...this.position)

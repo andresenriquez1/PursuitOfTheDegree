@@ -4,7 +4,7 @@ import { Maze } from './maze.js'
 
 export class Egg {
     constructor(){
-        this.position = vec3(-10, -10, 0);
+        this.position = vec3(-10, 1, 0);
         this.rotation = 0.0;
         this.speed = 4;
         this.shapes = {

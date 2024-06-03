@@ -90,11 +90,11 @@ export class Maze {
      placeKey() {
         let placed = false;
         while (!placed) {
-            const x = Math.floor(Math.random() * (this.width - 2)) + 1;
-            const z = Math.floor(Math.random() * (this.height - 2)) + 1;
+            const x = Math.round(Math.random() * (this.width - 2)) + 1;
+            const z = Math.round(Math.random() * (this.height - 2)) + 1;
             console.log(x,z, "orignal mazw layout for key");
             if (this.maze_layout[x][z] === 0) { // Ensure the key is placed in an empty cell
-                this.key_position = vec3(x * 2, 1, z * 2);
+                this.key_position = vec3(x , 1, z);
                 
                 placed = true;
             }
