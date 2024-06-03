@@ -8,6 +8,8 @@ export class Player {
         this.position = vec3(0, 1, 0);
         this.direction = vec3(0, 0, 1);
         this.rotation = 0.0;
+        this.target_rotation = 0.0;
+        this.rotation_speed = Math.PI / 40; // Rotation speed (1 degree per frame)
         this.speed = 2;
         this.maze = new Maze();
         this.shapes = {
@@ -77,6 +79,8 @@ export class Player {
             y, 
             sin * x + cos * z
         );
+
+        this.target_rotation -= angle;
     }
 
     turn_right() {
@@ -89,44 +93,63 @@ export class Player {
             y, 
             sin * x + cos * z
         );
+
+        this.target_rotation -= angle;
+    }
+
+    update_rotation() {
+        if (this.rotation !== this.target_rotation) {
+            const rotation_diff = this.target_rotation - this.rotation;
+            const rotation_step = Math.sign(rotation_diff) * Math.min(Math.abs(rotation_diff), this.rotation_speed);
+            this.rotation += rotation_step;
+        }
     }
     
     display(context, program_state) {
+
+        this.update_rotation();
+
         // Model transform for the player's body
         let body_transform = Mat4.translation(...this.position)
-            .times(Mat4.scale(0.4, 0.6, 0.3)) // Make the body thinner and taller
-            .times(Mat4.rotation(this.rotation, 0, 1, 0));
-
-        // Draw the player's body
-        this.shapes.body.draw(context, program_state, body_transform, this.materials.body);
+            .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
+            .times(Mat4.scale(0.4, 0.6, 0.3)); // Make the body thinner and taller
 
         // Model transform for the player's head
         let head_transform = Mat4.translation(...this.position)
+            .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
             .times(Mat4.translation(0, 1.1, 0)) // Position the head on top of the body
             .times(Mat4.scale(0.5, 0.5, 0.5)); // Make the head a bit larger
+
+        // Model transform for the player's arms
+        let left_arm_transform = Mat4.translation(...this.position)
+            .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
+            .times(Mat4.translation(-0.6, 0.5, 0)) // Position the left arm
+            .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the arm thin and long
+        let right_arm_transform = Mat4.translation(...this.position)
+            .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
+            .times(Mat4.translation(0.6, 0.5, 0)) // Position the right arm
+            .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the arm thin and long
+
+        // Model transform for the player's legs
+        let left_leg_transform = Mat4.translation(...this.position)
+            .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
+            .times(Mat4.translation(-0.2, -0.6, 0)) // Position the left leg
+            .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the leg thin and long
+        let right_leg_transform = Mat4.translation(...this.position)
+            .times(Mat4.rotation(this.rotation, 0, 1, 0)) // Apply the rotation
+            .times(Mat4.translation(0.2, -0.6, 0)) // Position the right leg
+            .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the leg thin and long
+
+        
+        // Draw the player's body
+        this.shapes.body.draw(context, program_state, body_transform, this.materials.body);
 
         // Draw the player's head
         this.shapes.head.draw(context, program_state, head_transform, this.materials.head);
 
-        // Model transform for the player's arms
-        let left_arm_transform = Mat4.translation(...this.position)
-            .times(Mat4.translation(-0.6, 0.5, 0)) // Position the left arm
-            .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the arm thin and long
-        let right_arm_transform = Mat4.translation(...this.position)
-            .times(Mat4.translation(0.6, 0.5, 0)) // Position the right arm
-            .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the arm thin and long
-
         // Draw the player's arms
         this.shapes.arm.draw(context, program_state, left_arm_transform, this.materials.limb);
         this.shapes.arm.draw(context, program_state, right_arm_transform, this.materials.limb);
-
-        // Model transform for the player's legs
-        let left_leg_transform = Mat4.translation(...this.position)
-            .times(Mat4.translation(-0.2, -0.6, 0)) // Position the left leg
-            .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the leg thin and long
-        let right_leg_transform = Mat4.translation(...this.position)
-            .times(Mat4.translation(0.2, -0.6, 0)) // Position the right leg
-            .times(Mat4.scale(0.1, 0.6, 0.1)); // Scale to make the leg thin and long
 
         // Draw the player's legs
         this.shapes.leg.draw(context, program_state, left_leg_transform, this.materials.limb);
