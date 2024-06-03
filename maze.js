@@ -6,7 +6,9 @@ export class Maze {
     constructor() {
         this.shapes = { 
             box: new defs.Cube(), 
-            floor: new defs.Square()
+            floor: new defs.Square(),
+            key_shaft: new defs.Capped_Cylinder(1, 20, [[0, 2], [0, 1]]),
+            key_bit: new defs.Cube()
         };
         this.materials = { 
             wall: new Material(new defs.Textured_Phong(), { 
@@ -24,12 +26,16 @@ export class Maze {
             }), // Green for start
             end: new Material(new defs.Phong_Shader(), { 
                 color: tiny.color(1.0, 0.0, 0.0, 1) 
-            }) // Red for end
+            }),// Red for end
+            key: new Material(new defs.Phong_Shader(), {
+                color: tiny.color(1.0, 0.84, 0.0, 1)  // Gold color
+            })
         };
         this.width = 21; // Must be odd
         this.height = 27; // Must be odd
         this.start_position = vec3(0,1,0);
         this.generateMaze();
+        this.placeKey();
         // const mazeGenerator = new BinaryTreeMaze(this.width, this.height);
         // this.maze_layout = mazeGenerator.generate();
 
@@ -67,7 +73,7 @@ export class Maze {
      }
 
      generateMaze() {
-        console.log(this.maze_layout, "he4");
+     
         const mazeGenerator = new BinaryTreeMaze(this.width, this.height);
         this.maze_layout = mazeGenerator.generate();
          // Set start point at top left (1, 1)
@@ -78,8 +84,22 @@ export class Maze {
          // Set end point at bottom right
          this.maze_layout[this.height - 1][this.width - 1] = 3;
          this.maze_layout[this.height - 1][this.width - 2] = 0;
-        console.log(this.maze_layout, "he2");
+        
      }
+
+     placeKey() {
+        let placed = false;
+        while (!placed) {
+            const x = Math.floor(Math.random() * (this.width - 2)) + 1;
+            const z = Math.floor(Math.random() * (this.height - 2)) + 1;
+            console.log(x,z, "orignal mazw layout for key");
+            if (this.maze_layout[x][z] === 0) { // Ensure the key is placed in an empty cell
+                this.key_position = vec3(x * 2, 1, z * 2);
+                
+                placed = true;
+            }
+        }
+    }
 
     display(context, program_state) {
         //console.log(this.maze_layout, "he2");
@@ -105,6 +125,16 @@ export class Maze {
                     let end_transform = Mat4.translation(i * 2, 0, j * 2).times(Mat4.scale(1, 0.1, 1));
                     this.shapes.box.draw(context, program_state, end_transform, this.materials.end);
                 }
+            }
+            if (this.key_position) {
+                // Key head
+                let key_transform = Mat4.translation(...this.key_position).times(Mat4.scale(0.5, 0.5, 0.5));
+                // Key shaft
+                key_transform = key_transform.times(Mat4.translation(0, -1.5, 0)).times(Mat4.scale(0.2, 3, 0.2));
+                this.shapes.key_shaft.draw(context, program_state, key_transform, this.materials.key);
+                // Key bit
+                key_transform = key_transform.times(Mat4.translation(0, -1, 0)).times(Mat4.scale(5, 0.2, 0.5));
+                this.shapes.key_bit.draw(context, program_state, key_transform, this.materials.key);
             }
         }
     }
