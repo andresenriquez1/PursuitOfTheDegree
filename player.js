@@ -37,14 +37,44 @@ export class Player {
                 //texture: new Texture("assets/player_limb_texture.jpg") // Add texture for the limbs
             }),
         };
+
+        // Bounding box dimensions
+        this.boundingBox = {
+            width: 0.8,
+            height: 2.0,
+            depth: 0.6
+        };
     }
 
-    checkCollision(nextPosition, maze) {
-        console.log(nextPosition,"next");
-        const x = Math.floor(nextPosition[0] / 2);
-        const z = Math.floor(nextPosition[2] / 2);
-        return maze.maze_layout[x][z] === 1; // Notice the use of z and x to match maze layout
+    checkCollision(nextPosition, maze, move) {
+        const halfWidth = this.boundingBox.width / 2;
+        const halfDepth = this.boundingBox.depth / 2;
+        const corners = [
+            nextPosition.plus(vec3(halfWidth, 0, halfDepth)),
+            nextPosition.plus(vec3(halfWidth, 0, -halfDepth)),
+            nextPosition.plus(vec3(-halfWidth, 0, halfDepth)),
+            nextPosition.plus(vec3(-halfWidth, 0, -halfDepth))
+        ];
+
+        console.log(corners);
+    
+        for (let corner of corners) {
+            console.log(corner);
+            let x = Math.round(corner[0] / 2);
+            let z = Math.round(corner[2] / 2);
+    
+            // Clamp x and z to stay within maze bounds
+            x = Math.max(0, Math.min(x, maze.maze_layout.length - 1));
+            z = Math.max(0, Math.min(z, maze.maze_layout[0].length - 1));
+    
+            if (maze.maze_layout[x][z] === 1) {
+                console.log(`Collision detected at: x=${x}, z=${z}`);
+                return true;
+            }
+        }
+        return false;
     }
+    
     
     get_position() {
         return this.position;
@@ -54,21 +84,28 @@ export class Player {
         return this.direction;
     }
     
-    //Pass the maze, so it can use the updated maze
-    move_forward(maze){
-        let next_position = this.position.plus(this.direction);
-        if (!this.checkCollision(next_position, maze)){
+    // Pass the maze, so it can use the updated maze
+    move_forward(maze) {
+        console.log(`Current position: ${this.position}`)
+
+        let next_position = this.position.plus(this.direction.times(this.speed));
+        if (!this.checkCollision(next_position, maze, 'f')) {
+            console.log(`Moving forward to: ${next_position}`);
             this.position = next_position;
         }
     }
     
-    //Pass the maze, so it can use the updated maze
-    move_backward(maze){
-        let next_position = this.position.minus(this.direction);
-        if (!this.checkCollision(next_position, maze)){
+    // Pass the maze, so it can use the updated maze
+    move_backward(maze) {
+        console.log(`Current position: ${this.position}`)
+        let next_position = this.position.minus(this.direction.times(this.speed));
+        if (!this.checkCollision(next_position, maze, 'b')) {
+            console.log(`Moving backward to: ${next_position}`);
+
             this.position = next_position;
         }
     }
+
     turn_left() {
         const angle = -Math.PI / 2; // 90 degrees in radians
         const cos = Math.cos(angle);
