@@ -12,6 +12,7 @@ export class Player {
         this.rotation_speed = Math.PI / 40; // Rotation speed (1 degree per frame)
         this.speed = 2;
         this.maze = new Maze();
+        this.has_key = false; //if true can open a door and u win 
         this.shapes = {
             head: new Subdivision_Sphere(4), // Use a subdivision sphere for a smoother, more realistic shape
             body: new Cube(), // Use a cube for the body to provide a different texture
@@ -74,6 +75,25 @@ export class Player {
         }
         return false;
     }
+    checkForKey() {
+    
+            const key_x = Math.floor(this.maze.key_position[0] / 2);
+            const key_z = Math.floor(this.maze.key_position[2] / 2);
+            const player_x = Math.floor(this.position[0] / 2);
+            const player_z = Math.floor(this.position[2] / 2);
+
+            console.log(key_x,key_z, "keysss");
+            console.log(player_x,player_x, "plasy");
+            
+
+            if (key_x === player_x && key_z === player_z) {
+                this.has_key = true;
+                this.position = vec3(25, 1, 18); // Move player to the end of the maze (25, 18)
+                //this.maze.key_position = null; // Remove key from the maze
+                console.log("Key collected!");
+            }
+        
+    }
     
     
     get_position() {
@@ -92,6 +112,8 @@ export class Player {
         if (!this.checkCollision(next_position, maze, 'f')) {
             console.log(`Moving forward to: ${next_position}`);
             this.position = next_position;
+            this.checkForKey();
+
         }
     }
     
@@ -103,6 +125,7 @@ export class Player {
             console.log(`Moving backward to: ${next_position}`);
 
             this.position = next_position;
+            this.checkForKey();
         }
     }
 
