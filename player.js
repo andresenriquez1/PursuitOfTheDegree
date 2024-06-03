@@ -82,8 +82,8 @@ export class Player {
             const key_x = Math.round(maze.key_position[0]/2 );
             const key_z = Math.round(maze.key_position[2]/2 );
 
-            console.log(maze.key_position[2],"mazekey");
-            console.log(maze.key_position[0],"mazekey2");
+            // console.log(maze.key_position[2],"mazekey");
+            // console.log(maze.key_position[0],"mazekey2");
             const player_x = Math.round(this.position[0] / 2);
             const player_z = Math.round(this.position[2] / 2);
 
@@ -91,7 +91,7 @@ export class Player {
             console.log(player_x,player_x, "plasy");
             
 
-            if (key_x === player_x && key_z === player_z || (key_x <= player_x -1) && key_z <= player_z-1 || (key_x >= player_x+1) && (key_z >= player_z+1)) {
+            if (key_x === player_x && key_z === player_z || (key_x === player_x -1) && key_z === player_z-1 || (key_x === player_x+1) && (key_z === player_z+1)) {
                 this.has_key = true;
                 this.position = vec3(52, 1, 40); // Move player to the end of the maze (25, 18)
                 //this.maze.key_position = null; // Remove key from the maze
