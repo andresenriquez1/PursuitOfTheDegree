@@ -108,7 +108,7 @@ export class Player {
     move_forward(maze) {
         console.log(`Current position: ${this.position}`)
 
-        let next_position = this.position.plus(this.direction.times(this.speed));
+        let next_position = this.position.plus(this.direction);
         if (!this.checkCollision(next_position, maze, 'f')) {
             console.log(`Moving forward to: ${next_position}`);
             this.position = next_position;
@@ -120,7 +120,7 @@ export class Player {
     // Pass the maze, so it can use the updated maze
     move_backward(maze) {
         console.log(`Current position: ${this.position}`)
-        let next_position = this.position.minus(this.direction.times(this.speed));
+        let next_position = this.position.minus(this.direction);
         if (!this.checkCollision(next_position, maze, 'b')) {
             console.log(`Moving backward to: ${next_position}`);
 
