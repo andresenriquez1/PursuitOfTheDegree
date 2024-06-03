@@ -64,12 +64,11 @@ export class Game extends Scene {
         program_state.lights = [new Light(light_position, color(1, 1, 1, 1), 1000)];
 
         // this.timer.update(program_state);
-
+        this.egg.update_egg(this.maze, this.player.get_position());
         // Display the player, egg, and maze
         this.player.display(context, program_state);
         this.egg.display(context, program_state);
         this.maze.display(context, program_state);
-
         // Display the health bar
         //this.health.display(context, program_state);
 

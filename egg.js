@@ -115,7 +115,8 @@ export class Egg {
     constructor(){
         this.position = vec3(51, 1, 38);
         this.rotation = 0.0;
-        this.speed = 4;
+        this.speed = 2;
+        this.intervalId = null;
         this.shapes = {
             egg: new defs.Subdivision_Sphere(4) // Sphere shape, with a high subdivision for smoothness
         };
@@ -130,60 +131,57 @@ export class Egg {
         };
     }
 
-    egg_pathfinding(maze, player_position){
+    calculate_path(maze, player_position){
         const graph = new Graph(maze.maze_layout);                 //1. Build graph
         const path = graph.astar(this.position, player_position);  //2. Run A*
         if (!path) {
             return;
-        }
-        let counter = 0;
-        // Create an interval that runs every 3 seconds
-        let intervalId = setInterval(() => {
-            if (counter < path.length) {
-                const node = path[counter];
-                const x = node.x * 2;
-                const z = node.y * 2;
-                console.log(x);
-                console.log(z);
-                let difference = vec3(node.x, 1, node.y).minus(this.position);
-                this.position = this.position.plus(difference);
-                console.log(this.position);
-                counter++;
-            } else {
-                // If we've reached the end of the path, clear the interval
-                clearInterval(intervalId);
-            }
-        }, 3000); // 3000 milliseconds = 3 seconds
+        } 
+        return path 
     }
 
-    /*
-    move_next_position(maze, player_position){
-        const path = this.egg_pathfinding(maze, player_position);
-        let counter = 0;
+    move_egg(path){
         if (!path){
-            
+            return
         }
-
-        // Create an interval that runs every 3 seconds
-        let intervalId = setInterval(() => {
+        let counter = 0;
+        let lerpAmount = 0;
+        let currentTarget = vec3(path[counter].y * 2, 1, path[counter].x * 2);
+        this.intervalId = setInterval(() => {
             if (counter < path.length) {
-                const node = path[counter];
-                const x = node.x;
-                const z = node.y;
-                this.position = vec3(node.x * 2, 1, node.y * 2);
-                counter++;
-            } else {
-                // If we've reached the end of the path, clear the interval
+                const nextTarget = vec3(path[counter].y * 2, 1, path[counter].x * 2);
+                if (lerpAmount < 1) { //Using lerping to smoothen the movement
+                    this.position = this.position.mix(currentTarget, lerpAmount);
+                    lerpAmount += 0.005; 
+                } else {
+                    // Once we've reached the target, move on to the next node
+                    currentTarget = nextTarget;
+                    lerpAmount = 0;
+                    counter++;
+                }
+            } else { //If we reach the end of our path, clear the interval and set it to null
                 clearInterval(intervalId);
+                this.intervalId = null;
             }
-        }, 3000); // 3000 milliseconds = 3 seconds
-
+        }, 250/60); // This determines the speed of the egg
     }
-    */
+
+    //Update the eggs position based on if the egg or player is moving
+    update_egg(maze, player_position){
+        if (!this.lastPlayerPosition || !this.lastPlayerPosition.equals(player_position)) {
+            this.lastPlayerPosition = player_position;
+            if (this.intervalId){
+                clearInterval(this.intervalId);
+                this.intervalId = null;
+            }
+            const path = this.calculate_path(maze, player_position);
+            this.move_egg(path);
+        }
+    }
+
     display(context, program_state) {
         const model_transform = Mat4.translation(...this.position)
-            .times(Mat4.scale(0.5, 0.7, 0.5)); // Scale to resemble an egg shape
-        
+            .times(Mat4.scale(0.5, 0.7, 0.5)); // Scale to resemble an egg shape        
         this.shapes.egg.draw(context, program_state, model_transform, this.materials.egg);
     }
 }
