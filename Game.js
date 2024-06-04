@@ -98,12 +98,13 @@ export class Game extends Scene {
         this.shapes.text.draw(context, program_state, counter_transform, this.materials.text_image);
 
         // seconds
-        this.seconds = ((program_state.animation_time / 1000) % 60).toFixed(0);
-        if (this.seconds == 59)
-                this.minutes = (this.minutes + 1).toFixed(0);
+        this.seconds = Math.floor((program_state.animation_time / 1000) % 60);
+        this.minutes = Math.floor((program_state.animation_time / 1000) / 60);
 
         // minutes
-        let timerDisplay = "Time: " + this.minutes + ":" + this.seconds;
+        let timerDisplay = "Time: " + this.minutes.toFixed(0) + ":" + this.seconds.toFixed(0);
+        if (this.seconds < 10)
+            timerDisplay = "Time: " + this.minutes.toFixed(0) + ":0" + this.seconds.toFixed(0);
         this.shapes.timer.set_string(timerDisplay, context.context);
         let timer_transform = Mat4.inverse(program_state.camera_inverse)
             .times(Mat4.translation(5.0/16, 5.0/16, -1))
