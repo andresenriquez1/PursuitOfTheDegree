@@ -160,7 +160,7 @@ export class Egg {
                     counter++;
                 }
             } else { //If we reach the end of our path, clear the interval and set it to null
-                clearInterval(intervalId);
+                clearInterval(this.intervalId);
                 this.intervalId = null;
             }
         }, 250/60); // This determines the speed of the egg

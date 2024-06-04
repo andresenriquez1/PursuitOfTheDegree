@@ -14,9 +14,12 @@ export class Game extends Scene {
         super();
         this.initializeGame();
         this.shapes = {
-            text: new Stats_Card(35)
+            text: new Stats_Card(35),
+            timer: new Stats_Card(35)
         };
         this.count_rounds = 0;
+        this.seconds = 0;
+        this.minutes = 0;
 
         this.materials = {
             text_image: new Material(new defs.Textured_Phong(), {
@@ -35,7 +38,7 @@ export class Game extends Scene {
       //this.timer = new Timer(180);
 
         // Boolean to change POVs
-        this.pov = false;
+        this.pov = true;
         
         // Camera state
         this.current_camera_position = vec3(0, 0, 0);
@@ -52,7 +55,7 @@ export class Game extends Scene {
         this.new_line();
         this.key_triggered_button("Turn Right", ["ArrowRight"], () => this.player.turn_right());
         this.new_line();
-        this.key_triggered_button("Switching POV", ["p"], function() { this.pov = !this.pov }.bind(this))
+        this.key_triggered_button("Toggle Map View", ["p"], function() { this.pov = !this.pov }.bind(this))
         this.new_line();
         this.key_triggered_button("Regenerate Maze", ["r"], () => this.regenerate_maze());
     }
@@ -94,15 +97,27 @@ export class Game extends Scene {
             .times(Mat4.scale(1.0/64, 1.0/64, 1.0/64));
         this.shapes.text.draw(context, program_state, counter_transform, this.materials.text_image);
 
+        // seconds
+        this.seconds = ((program_state.animation_time / 1000) % 60).toFixed(0);
+        if (this.seconds == 59)
+                this.minutes = (this.minutes + 1).toFixed(0);
+
+        // minutes
+        let timerDisplay = "Time: " + this.minutes + ":" + this.seconds;
+        this.shapes.timer.set_string(timerDisplay, context.context);
+        let timer_transform = Mat4.inverse(program_state.camera_inverse)
+            .times(Mat4.translation(5.0/16, 5.0/16, -1))
+            .times(Mat4.scale(1.0/64, 1.0/64, 1.0/64));
+        this.shapes.timer.draw(context, program_state, timer_transform, this.materials.text_image);
 
         if (this.pov){
             const player_position = this.player.get_position();
             const player_direction = this.player.get_direction();
             
             // Calculate camera position directly behind and slightly above the player
-            const camera_offset = vec3(0, 5, -5);
+            const camera_offset = vec3(0, 2, 0.7);
             const target_camera_position = player_position.plus(player_direction.times(camera_offset[2])).plus(vec3(0, camera_offset[1], 0));            
-            const target_look_at_point = player_position.plus(player_direction.times(2));
+            const target_look_at_point = player_position.plus(player_direction.times(9));
             
             // Smoothly update the camera position            
             // Interpolate between current and target positions for smooth transition
