@@ -2,17 +2,28 @@ import { defs, tiny } from './examples/common.js';
 import { Player } from './player.js';
 import { Maze } from './maze.js';
 import { Egg } from './egg.js';
+import { Stats_Card } from './Stats_Card.js';
+
 //import { HealthBar } from './HealthBar.js';
 //import { Timer } from './Timer.js';
 
-const { vec3, vec4, color, Mat4, Light, Vector, Scene } = tiny;
+const { vec3, vec4, color, Mat4, Light, Vector, Scene , Material, Texture} = tiny;
 
 export class Game extends Scene {
     constructor() {
         super();
         this.initializeGame();
-
+        this.shapes = {
+            text: new Stats_Card(35)
+        };
         this.count_rounds = 0;
+
+        this.materials = {
+            text_image: new Material(new defs.Textured_Phong(), {
+                ambient: 1, diffusivity: 0, specularity: 0,
+                texture: new Texture('./assets/text.png')
+            })
+        }
     }
     initializeGame() {
         // Objects in the scene
@@ -75,6 +86,15 @@ export class Game extends Scene {
         // Display the timer
         //this.timer.display(context, program_state);
 
+
+        let countDisplay = "Completed mazes: " + this.count_rounds;
+        this.shapes.text.set_string(countDisplay, context.context);
+        let counter_transform = Mat4.inverse(program_state.camera_inverse)
+            .times(Mat4.translation(5.0/16, 6.0/16, -1))
+            .times(Mat4.scale(1.0/64, 1.0/64, 1.0/64));
+        this.shapes.text.draw(context, program_state, counter_transform, this.materials.text_image);
+
+
         if (this.pov){
             const player_position = this.player.get_position();
             const player_direction = this.player.get_direction();
@@ -103,6 +123,5 @@ export class Game extends Scene {
             this.regenerate_maze();
             // console.log(`count rounds: $(this.count_rounds)`);
         }
-
     }
 }
