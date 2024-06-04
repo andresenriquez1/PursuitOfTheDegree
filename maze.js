@@ -14,12 +14,12 @@ export class Maze {
             wall: new Material(new defs.Textured_Phong(), { 
                 color: tiny.color(0.0, 0.0, 0.0, 1),
                 ambient: 1.0, 
-                texture: new Texture("assets/wall.png") //Current material for walls is a brick wall
+                texture: new Texture("assets/door2.jpg") //Current material for walls is a brick wall
             }),
             tile: new Material(new defs.Textured_Phong(), {
                 color: tiny.color(0.0,0.0,0.0,1),
                 ambient: 1.0,
-                texture: new Texture("assets/tile.jpg")
+                texture: new Texture("assets/floor2.jpg")
             }),
             start: new Material(new defs.Phong_Shader(), { 
                 color: tiny.color(0.0, 1.0, 0.0, 1) 
