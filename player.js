@@ -6,7 +6,7 @@ import { Custom_Face_Shader } from './Custom_Face_Shader.js';
 
 export class Player {
     constructor(){
-        this.position = vec3(0, 1, 0);
+        this.position = vec3(2, 1, 2);
         this.direction = vec3(0, 0, 1);
         this.rotation = 0.0;
         this.target_rotation = 0.0;
@@ -59,17 +59,28 @@ export class Player {
             nextPosition.plus(vec3(-halfWidth, 0, -halfDepth))
         ];
 
+        
+
+
         console.log(corners);
     
         for (let corner of corners) {
             console.log(corner);
             let x = Math.round(corner[0] / 2);
             let z = Math.round(corner[2] / 2);
+            let y = Math.round(corner[1] / 2);
+
+            //console.log(y,"y baby");
+
+           
     
             // Clamp x and z to stay within maze bounds
             x = Math.max(0, Math.min(x, maze.maze_layout.length - 1));
             z = Math.max(0, Math.min(z, maze.maze_layout[0].length - 1));
-    
+
+           
+            console.log(maze.maze_layout[x][z],"what is the maze here baby");
+            if( x <=-1 && z<=-1) return true;
             if (maze.maze_layout[x][z] === 1) {
                 console.log(`Collision detected at: x=${x}, z=${z}`);
                 return true;
