@@ -67,7 +67,7 @@ export class Game extends Scene {
     }
 
     display(context, program_state) {
-        context.context.clearColor(0.5, 0.8, 0.9, 1.0);
+        context.context.clearColor(0.2, 0.5, 0.6, 1.0); // Darker background color
         
         program_state.projection_transform = Mat4.perspective(Math.PI / 4, context.width / context.height, 0.1, 1000);
         
