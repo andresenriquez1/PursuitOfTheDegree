@@ -19,7 +19,7 @@ export class Graph {
 
         for (let y = 0; y < maze.length; y++) {
             for (let x = 0; x < maze[y].length; x++) {
-                if (maze[y][x] === 0) {
+                if (maze[y][x] === 0 || maze[y][x] === 2) {
                     this.nodes.push(new Node(x, y));
                 }
             }
@@ -27,18 +27,19 @@ export class Graph {
 
         for (let node of this.nodes) {
             for (let otherNode of this.nodes) {
-                if (Math.abs(node.x - otherNode.x) + Math.abs(node.y - otherNode.y) === 1) {
+                let x = Math.abs(node.x - otherNode.x) + Math.abs(node.y - otherNode.y);
+                if (x === 1) {
                     node.edges.push(otherNode);
                 }
             }
         }
     }
     astar(startVec3, goalVec3) {
-        let startX = Math.ceil(startVec3[0]/2);
-        let startZ = Math.ceil(startVec3[2]/2);
+        let startX = Math.round(startVec3[0]/2);
+        let startZ = Math.round(startVec3[2]/2);
     
-        let goalX = Math.ceil(goalVec3[0]/2);
-        let goalZ = Math.ceil(goalVec3[2]/2);
+        let goalX = Math.round(goalVec3[0]/2);
+        let goalZ = Math.round(goalVec3[2]/2);
 
         // Find the nodes in the graph that match these coordinates
         let start = this.nodes.find(node => node.x === startZ && node.y === startX);
@@ -113,7 +114,7 @@ export class Graph {
 
 export class Egg {
     constructor(){
-        this.position = vec3(51, 1, 38);
+        this.position = vec3(2, 1, 2);
         this.rotation = 0.0;
         this.speed = 2;
         this.intervalId = null;
