@@ -17,7 +17,6 @@
             padding: 20px;
             border-radius: 10px;
         }
-        
         .centered-menu {
             position: absolute;
             top: 50%;
@@ -37,71 +36,107 @@
             border-radius: 10px;
         }
         #win-image {
-            
-           
             height: 70%;
-            
             z-index: -1; /* Ensure the image is behind the text */
         }
     </style>
 </head>
 <body>
-<div id="start-menu" class="centered-menu">
-    <h1 id="welcome-message">Pursuit Of The Degree</h1>
-    <button id="instructions-button">How to Play</button>
-    <button id="start-button">Start Game</button>
+<div id="startMenu" class="centered-menu">
+    <h1 id="welcomeMessage">Pursuit Of The Degree</h1>
+    <button id="howToPlay">How to Play</button>
+    <button id="startGame">Start Game</button>
 </div>
 
-<div id="instructions-menu" class="centered-menu hidden">
+<div id="instructionsMenu" class="centered-menu hidden">
     <div class="transparent-box">
         <h1>How to Play</h1>
         <p>Use the Arrow keys to move Your Player</p>
         <p>Your goal is to reach the end of the maze before the egg catches you</p>
         <p>There is a key, which will take you to the end of the maze</p>
         <p>There will be a total of 3 mazes you must complete in order to win your degree</p>
-        <p>A key in the second game, along with an elevator can fast track u to the end of the second maze</p>
+        <p>A key in the second game, along with an elevator can fast track you to the end of the second maze</p>
         <p>The third maze will have no help from a key, so you must navigate it before the egg reaches you.</p>
-        <button id="back-to-start-button">Back</button>
+        <button id="backToStart">Back</button>
     </div>
 </div>
 
-<div id="gameDone-menu" class="centered-menu hidden">
-    <h1 id="gameDone-message"></h1>
+<div id="gameDoneMenu" class="centered-menu hidden">
+    <h1 id="gameDoneMessage"></h1>
     <h2 id="difficulty"></h2>
     <h2 id="timer"></h2>
-    <button id="startAgain-button">Play Again</button>
-    <button id="quit-button">Quit</button>
+    <button id="restartGame">Play Again</button>
+    <button id="quitGame">Quit</button>
 </div>
 
-<div id="win-menu" class="centered-menu hidden">
+<div id="winMenu" class="centered-menu hidden">
     <h1>Congratulations!</h1>
     <h2>You completed the maze!</h2>
     <img id="win-image" src="./assets/degree.jpg" alt="Win Image">
-    <button id="play-again-win-button">Play Again</button>
-    <button id="quit-win-button">Quit</button>
+    <button id="playAgainWin">Play Again</button>
+    <button id="quitWin">Quit</button>
 </div>
 
-<div id="lose-menu" class="centered-menu hidden">
+<div id="loseMenu" class="centered-menu hidden">
     <h1>Game Over</h1>
-    <button id="play-again-lose-button">Play Again</button>
-    <button id="quit-lose-button">Quit</button>
+    <button id="playAgainLose">Play Again</button>
+    <button id="quitLose">Quit</button>
 </div>
 
-<div id="lose-menu" class="centered-menu hidden">
-    <h1>Game Over</h1>
-    <button id="play-again-lose-button">Play Again</button>
-    <button id="quit-lose-button">Quit</button>
-</div>
-
-
-<div class="canvas-widget hidden" id="main-canvas"></div>
+<div class="canvas-widget hidden" id="mainCanvas"></div>
 <script type=module>
-    const element_to_replace = document.querySelector("#main-canvas");
+    const element_to_replace = document.querySelector("#mainCanvas");
     import {Main_Scene, Additional_Scenes, Canvas_Widget} from './main-scene.js';
     const scenes = [Main_Scene, ...Additional_Scenes].map(scene => new scene());
     new Canvas_Widget(element_to_replace, scenes);
 </script>
 
+<script>
+    document.getElementById('startGame').addEventListener('click', () => {
+        document.getElementById('startMenu').classList.add('hidden');
+        document.getElementById('mainCanvas').classList.remove('hidden');
+        document.body.classList.add('transparent-box'); // Change background to solid color
+    });
 
+    document.getElementById('howToPlay').addEventListener('click', () => {
+        document.getElementById('startMenu').classList.add('hidden');
+        document.getElementById('instructionsMenu').classList.remove('hidden');
+    });
+
+    document.getElementById('backToStart').addEventListener('click', () => {
+        document.getElementById('instructionsMenu').classList.add('hidden');
+        document.getElementById('startMenu').classList.remove('hidden');
+    });
+
+    document.getElementById('restartGame').addEventListener('click', () => {
+        document.getElementById('gameDoneMenu').classList.add('hidden');
+        document.getElementById('mainCanvas').classList.remove('hidden');
+    });
+
+    document.getElementById('quitGame').addEventListener('click', () => {
+        document.getElementById('gameDoneMenu').classList.add('hidden');
+        document.getElementById('startMenu').classList.remove('hidden');
+    });
+
+    document.getElementById('playAgainWin').addEventListener('click', () => {
+        document.getElementById('winMenu').classList.add('hidden');
+        document.getElementById('mainCanvas').classList.remove('hidden');
+    });
+
+    document.getElementById('quitWin').addEventListener('click', () => {
+        document.getElementById('winMenu').classList.add('hidden');
+        document.getElementById('startMenu').classList.remove('hidden');
+    });
+
+    document.getElementById('playAgainLose').addEventListener('click', () => {
+        document.getElementById('loseMenu').classList.add('hidden');
+        document.getElementById('mainCanvas').classList.remove('hidden');
+    });
+
+    document.getElementById('quitLose').addEventListener('click', () => {
+        document.getElementById('loseMenu').classList.add('hidden');
+        document.getElementById('startMenu').classList.remove('hidden');
+    });
+</script>
 </body>
 </html>
