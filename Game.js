@@ -21,6 +21,7 @@ export class Game extends Scene {
         this.seconds = 0;
         this.minutes = 0;
         this.start_round_time = 0;
+        this.started = false;
 
         this.materials = {
             text_image: new Material(new defs.Textured_Phong(), {
@@ -28,6 +29,79 @@ export class Game extends Scene {
                 texture: new Texture('./assets/text.png')
             })
         }
+
+
+        // start game functionality
+        this.start_menu = document.getElementById('start-menu');
+        this.start_button = document.getElementById('start-button');
+        this.main_canvas  = document.getElementById('main-canvas');
+
+        this.how_to_play = document.getElementById('instructions-button');
+        this.instructions_menu = document.getElementById('instructions-menu');
+        this.back_button = document.getElementById('back-to-start-button');
+        
+        // end game functionality
+        this.start_again_button = document.getElementById('startAgain-button');
+        this.game_done_menu = document.getElementById('gameDone-menu');
+        
+        this.quit_btn = document.getElementById('quit-button');
+        this.play_again_win_btn = document.getElementById('play-again-win-button');
+        this.quit_win_btn = document.getElementById('quit-win-button');
+        this.play_again_lose_btn = document.getElementById('play-again-lose-button');
+        this.quit_lose_btn = document.getElementById('quit-lose-button');
+
+        this.win_menu = document.getElementById('win-menu');
+        this.lose_menu = document.getElementById('lose-menu');
+
+        // button event listeners
+        this.start_button.onclick = () => {
+            this.started = true;
+            this.start_round_time = performance.now(); // Record the game start time
+            this.start_menu.classList.add('hidden');
+            this.main_canvas.classList.remove('hidden');
+            document.body.classList.add('transparent-box');
+        }
+
+        this.how_to_play.onclick = () => {
+            this.start_menu.classList.add('hidden');
+            this.instructions_menu.classList.remove('hidden');
+        }
+
+        this.back_button.onclick = () => {
+            this.start_menu.classList.remove('hidden');
+            this.instructions_menu.classList.add('hidden');
+        }
+
+        this.start_again_button.onclick = () => {
+            this.game_done_menu.classList.add('hidden');
+            this.main_canvas.classList.remove('hidden');
+        }
+
+        this.quit_btn.onclick = () => {
+            this.game_done_menu.classList.add('hidden');
+            this.start_menu.classList.remove('hidden');
+        }
+
+        this.play_again_win_btn.onclick = () => {
+            this.win_menu.classList.add('hidden');
+            this.main_canvas.classList.remove('hidden');
+        }
+
+        this.quit_win_btn.onclick = () => {
+            this.win_menu.classList.add('hidden');
+            this.start_menu.classList.remove('hidden');
+        }
+
+        this.play_again_lose_btn.onclick = () => {
+            this.lose_menu.classList.add('hidden');
+            this.main_canvas.classList.remove('hidden');
+        }
+
+        this.quit_lose_btn.onclick = () => {
+            this.lose_menu.classList.add('hidden');
+            this.start_menu.classList.remove('hidden');
+        }
+
     }
     initializeGame() {
         // Objects in the scene
@@ -45,7 +119,7 @@ export class Game extends Scene {
         this.current_look_at_point = vec3(0, 0, 0);
     }
     WinGameCheck() {
-        if (this.count_rounds >= 1) {
+        if (this.count_rounds >= 3) {
             document.getElementById('main-canvas').classList.add('hidden');
             document.getElementById('win-menu').classList.remove('hidden');
             document.getElementById('win-image').style.display = 'block';
@@ -106,8 +180,10 @@ export class Game extends Scene {
         this.shapes.text.draw(context, program_state, counter_transform, this.materials.text_image);
 
         // seconds
-        this.seconds = Math.floor((program_state.animation_time / 1000) % 60);
-        this.minutes = Math.floor((program_state.animation_time / 1000) / 60);
+        let adjusted_time = this.started ? program_state.animation_time - this.start_round_time : 0;
+
+        this.seconds = Math.floor((adjusted_time / 1000) % 60);
+        this.minutes = Math.floor((adjusted_time / 1000) / 60);
 
         // minutes
         let timerDisplay = "Time: " + this.minutes.toFixed(0) + ":" + this.seconds.toFixed(0);
@@ -146,7 +222,7 @@ export class Game extends Scene {
         if (this.maze.checkEnd(this.player.get_position())) {
             this.count_rounds += 1;
             this.WinGameCheck();
-            this.round_start_time = program_state.animation_time;
+            this.start_round_time = program_state.animation_time;
             this.regenerate_maze();
             // console.log(`count rounds: $(this.count_rounds)`);
         }
