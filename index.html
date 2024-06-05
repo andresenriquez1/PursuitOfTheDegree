@@ -1,27 +1,140 @@
-<!-- Graphics Example Code.  
-    index.html - The web page document containing the canvas (drawing surface).  It launches your JavaScript files.
--->
 <!DOCTYPE html>
-<html lang="En">
+<html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <link href="assets/fav.ico" rel="icon">
-    <title>Tiny Graphics</title>
+    <title>Pursuit of the Degree</title>
+    <style>
+        body {
+            background: url('./assets/hall.png') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .transparent-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .centered-menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .transparent-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
-<body style="background: White">
-<!-- Begin typing your web page here. -->
-<!-- The following code embeds a WebGL canvas panel, loads certain scene(s), and displays panel(s) of their controls.-->
-<div class="canvas-widget" id="main-canvas"></div>
+<body>
+<div id="start-menu" class="centered-menu">
+    <h1 id="welcome-message">Pursuit Of The Degree</h1>
+    <button id="instructions-button">How to Play</button>
+    <button id="start-button">Start Game</button>
+</div>
+
+<div id="instructions-menu" class="centered-menu hidden">
+    <div class="transparent-box">
+        <h1>How to Play</h1>
+        <p>Use the Arrow keys to move Your Player</p>
+        <p>Your goal is to reach the end of the maze before the egg catches you</p>
+        <p>There is a key, which will take you to the end of the maze</p>
+        <p>There will be a total of 3 mazes you must complete in order to win your degree</p>
+        <p>A key in the second game, along with an elevator can fast track u to the end of the second maze</p>
+        <p>The third maze will have no help from a key, so you must navigate it before the egg reaches you.</p>
+        <button id="back-to-start-button">Back</button>
+    </div>
+</div>
+
+<div id="gameDone-menu" class="centered-menu hidden">
+    <h1 id="gameDone-message"></h1>
+    <h2 id="difficulty"></h2>
+    <h2 id="timer"></h2>
+    <h2 id="personal-Score"></h2>
+    <h2 id="high-score"></h2>
+    <button id="startAgain-button">Play Again</button>
+    <button id="quit-button">Quit</button>
+</div>
+
+<div id="win-menu" class="centered-menu hidden">
+    <h1>Congratulations!</h1>
+    <h2>You completed the maze!</h2>
+    <button id="play-again-win-button">Play Again</button>
+    <button id="quit-win-button">Quit</button>
+</div>
+
+<div id="lose-menu" class="centered-menu hidden">
+    <h1>Game Over</h1>
+    <button id="play-again-lose-button">Play Again</button>
+    <button id="quit-lose-button">Quit</button>
+</div>
+
+<div class="canvas-widget hidden" id="main-canvas"></div>
 <script type=module>
-    // ********************* THE ENTRY POINT OF YOUR WHOLE PROGRAM STARTS HERE *********************
-    // Indicate which element on the page you want the Canvas_Widget to replace with a 3D WebGL area:
     const element_to_replace = document.querySelector("#main-canvas");
     import {Main_Scene, Additional_Scenes, Canvas_Widget} from './main-scene.js';
-    // Import the file that defines a scene.
     const scenes = [Main_Scene, ...Additional_Scenes].map(scene => new scene());
-    // This line creates your scene.
     new Canvas_Widget(element_to_replace, scenes);
 </script>
 
+<script>
+    document.getElementById('start-button').addEventListener('click', () => {
+        document.getElementById('start-menu').classList.add('hidden');
+        document.getElementById('main-canvas').classList.remove('hidden');
+        document.body.classList.add('transparent-box'); // Change background to solid color
+    });
+
+    document.getElementById('instructions-button').addEventListener('click', () => {
+        document.getElementById('start-menu').classList.add('hidden');
+        document.getElementById('instructions-menu').classList.remove('hidden');
+    });
+
+    document.getElementById('back-to-start-button').addEventListener('click', () => {
+        document.getElementById('instructions-menu').classList.add('hidden');
+        document.getElementById('start-menu').classList.remove('hidden');
+    });
+
+    document.getElementById('startAgain-button').addEventListener('click', () => {
+        document.getElementById('gameDone-menu').classList.add('hidden');
+        document.getElementById('main-canvas').classList.remove('hidden');
+    });
+
+    document.getElementById('quit-button').addEventListener('click', () => {
+        document.getElementById('gameDone-menu').classList.add('hidden');
+        document.getElementById('start-menu').classList.remove('hidden');
+    });
+
+    document.getElementById('play-again-win-button').addEventListener('click', () => {
+        document.getElementById('win-menu').classList.add('hidden');
+        document.getElementById('main-canvas').classList.remove('hidden');
+    });
+
+    document.getElementById('quit-win-button').addEventListener('click', () => {
+        document.getElementById('win-menu').classList.add('hidden');
+        document.getElementById('start-menu').classList.remove('hidden');
+    });
+
+    document.getElementById('play-again-lose-button').addEventListener('click', () => {
+        document.getElementById('lose-menu').classList.add('hidden');
+        document.getElementById('main-canvas').classList.remove('hidden');
+    });
+
+    document.getElementById('quit-lose-button').addEventListener('click', () => {
+        document.getElementById('lose-menu').classList.add('hidden');
+        document.getElementById('start-menu').classList.remove('hidden');
+    });
+</script>
 </body>
 </html>
