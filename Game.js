@@ -20,6 +20,7 @@ export class Game extends Scene {
         this.count_rounds = 0;
         this.seconds = 0;
         this.minutes = 0;
+        this.start_round_time = 0;
 
         this.materials = {
             text_image: new Material(new defs.Textured_Phong(), {
@@ -36,7 +37,6 @@ export class Game extends Scene {
         this.egg = new Egg();
       //this.health = new HealthBar(4);
       //this.timer = new Timer(180);
-
         // Boolean to change POVs
         this.pov = true;
         
@@ -84,11 +84,13 @@ export class Game extends Scene {
         program_state.lights = [new Light(light_position, color(1, 1, 1, 1), 1000)];
 
         // this.timer.update(program_state);
-        this.egg.update_egg(this.maze, this.player.get_position());
         // Display the player, egg, and maze
         this.player.display(context, program_state);
-        this.egg.display(context, program_state);
         this.maze.display(context, program_state);
+        if(program_state.animation_time - this.start_round_time > 6000){//After 6 seconds render the egg
+            this.egg.display(context, program_state);
+            this.egg.update_egg(this.maze, this.player.get_position());
+        }
         // Display the health bar
         //this.health.display(context, program_state);
 
@@ -117,6 +119,7 @@ export class Game extends Scene {
             .times(Mat4.scale(1.0/64, 1.0/64, 1.0/64));
         this.shapes.timer.draw(context, program_state, timer_transform, this.materials.text_image);
 
+
         if (this.pov){
             const player_position = this.player.get_position();
             const player_direction = this.player.get_direction();
@@ -143,6 +146,7 @@ export class Game extends Scene {
         if (this.maze.checkEnd(this.player.get_position())) {
             this.count_rounds += 1;
             this.WinGameCheck();
+            this.round_start_time = program_state.animation_time;
             this.regenerate_maze();
             // console.log(`count rounds: $(this.count_rounds)`);
         }
