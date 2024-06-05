@@ -28,13 +28,13 @@ export class Game extends Scene {
         };
 
         // start game functionality
-        this.start_menu = document.getElementById('startMenu');
-        this.start_button = document.getElementById('startGame');
-        this.main_canvas = document.getElementById('mainCanvas');
+        this.MenuStart = document.getElementById('startMenu');
+        this.StartGame = document.getElementById('startGame');
+        this.mainPage = document.getElementById('mainCanvas');
 
-        this.how_to_play = document.getElementById('howToPlay');
-        this.instructions_menu = document.getElementById('instructionsMenu');
-        this.back_button = document.getElementById('backToStart');
+        this.howToPlay = document.getElementById('howToPlay');
+        this.howToPlayText = document.getElementById('instructionsMenu');
+        this.GoBack = document.getElementById('backToStart');
 
         // end game functionality
         this.start_again_button = document.getElementById('restartGame');
@@ -50,27 +50,27 @@ export class Game extends Scene {
         this.lose_menu = document.getElementById('loseMenu');
 
         // button event listeners
-        this.start_button.onclick = () => {
+        this.StartGame.onclick = () => {
             this.started = true;
             this.start_round_time = performance.now(); // Record the game start time
             this.start_menu.classList.add('hidden');
-            this.main_canvas.classList.remove('hidden');
+            this.mainPage.classList.remove('hidden');
             document.body.classList.add('transparent-box');
         };
 
-        this.how_to_play.onclick = () => {
+        this.howToPlay.onclick = () => {
             this.start_menu.classList.add('hidden');
-            this.instructions_menu.classList.remove('hidden');
+            this.howToPlayText.classList.remove('hidden');
         };
 
-        this.back_button.onclick = () => {
+        this.GoBack.onclick = () => {
             this.start_menu.classList.remove('hidden');
-            this.instructions_menu.classList.add('hidden');
+            this.howToPlayText.classList.add('hidden');
         };
 
         this.start_again_button.onclick = () => {
             this.game_done_menu.classList.add('hidden');
-            this.main_canvas.classList.remove('hidden');
+            this.mainPageclassList.remove('hidden');
         };
 
         this.quit_btn.onclick = () => {
@@ -80,7 +80,7 @@ export class Game extends Scene {
 
         this.play_again_win_btn.onclick = () => {
             this.win_menu.classList.add('hidden');
-            this.main_canvas.classList.remove('hidden');
+            this.mainPage.classList.remove('hidden');
         };
 
         this.quit_win_btn.onclick = () => {
@@ -90,12 +90,12 @@ export class Game extends Scene {
 
         this.play_again_lose_btn.onclick = () => {
             this.lose_menu.classList.add('hidden');
-            this.main_canvas.classList.remove('hidden');
+            this.mainPage.classList.remove('hidden');
         };
 
         this.quit_lose_btn.onclick = () => {
             this.lose_menu.classList.add('hidden');
-            this.start_menu.classList.remove('hidden');
+            this.MenuStart.classList.remove('hidden');
         };
     }
 
