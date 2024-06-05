@@ -44,7 +44,13 @@ export class Game extends Scene {
         this.current_camera_position = vec3(0, 0, 0);
         this.current_look_at_point = vec3(0, 0, 0);
     }
-    
+    WinGameCheck() {
+        if (this.count_rounds >= 1) {
+            document.getElementById('main-canvas').classList.add('hidden');
+            document.getElementById('win-menu').classList.remove('hidden');
+            document.getElementById('win-image').style.display = 'block';
+        }
+    }
 
     make_control_panel() {
         this.key_triggered_button("Move Forward", ["ArrowUp"], () => this.player.move_forward(this.maze));
@@ -136,6 +142,7 @@ export class Game extends Scene {
 
         if (this.maze.checkEnd(this.player.get_position())) {
             this.count_rounds += 1;
+            this.WinGameCheck();
             this.regenerate_maze();
             // console.log(`count rounds: $(this.count_rounds)`);
         }

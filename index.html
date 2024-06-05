@@ -36,6 +36,13 @@
             padding: 20px;
             border-radius: 10px;
         }
+        #win-image {
+            
+           
+            height: 70%;
+            
+            z-index: -1; /* Ensure the image is behind the text */
+        }
     </style>
 </head>
 <body>
@@ -62,8 +69,6 @@
     <h1 id="gameDone-message"></h1>
     <h2 id="difficulty"></h2>
     <h2 id="timer"></h2>
-    <h2 id="personal-Score"></h2>
-    <h2 id="high-score"></h2>
     <button id="startAgain-button">Play Again</button>
     <button id="quit-button">Quit</button>
 </div>
@@ -71,8 +76,15 @@
 <div id="win-menu" class="centered-menu hidden">
     <h1>Congratulations!</h1>
     <h2>You completed the maze!</h2>
+    <img id="win-image" src="./assets/degree.jpg" alt="Win Image">
     <button id="play-again-win-button">Play Again</button>
     <button id="quit-win-button">Quit</button>
+</div>
+
+<div id="lose-menu" class="centered-menu hidden">
+    <h1>Game Over</h1>
+    <button id="play-again-lose-button">Play Again</button>
+    <button id="quit-lose-button">Quit</button>
 </div>
 
 <div id="lose-menu" class="centered-menu hidden">
