@@ -4,10 +4,7 @@ import { Maze } from './maze.js';
 import { Egg } from './egg.js';
 import { Stats_Card } from './Stats_Card.js';
 
-//import { HealthBar } from './HealthBar.js';
-//import { Timer } from './Timer.js';
-
-const { vec3, vec4, color, Mat4, Light, Vector, Scene , Material, Texture} = tiny;
+const { vec3, vec4, color, Mat4, Light, Vector, Scene, Material, Texture } = tiny;
 
 export class Game extends Scene {
     constructor() {
@@ -28,100 +25,97 @@ export class Game extends Scene {
                 ambient: 1, diffusivity: 0, specularity: 0,
                 texture: new Texture('./assets/text.png')
             })
-        }
-
+        };
 
         // start game functionality
-        this.start_menu = document.getElementById('start-menu');
-        this.start_button = document.getElementById('start-button');
-        this.main_canvas  = document.getElementById('main-canvas');
+        this.MenuStart = document.getElementById('startMenu');
+        this.StartGame = document.getElementById('startGame');
+        this.mainPage = document.getElementById('mainCanvas');
 
-        this.how_to_play = document.getElementById('instructions-button');
-        this.instructions_menu = document.getElementById('instructions-menu');
-        this.back_button = document.getElementById('back-to-start-button');
-        
+        this.howToPlay = document.getElementById('howToPlay');
+        this.howToPlayText = document.getElementById('instructionsMenu');
+        this.GoBack = document.getElementById('backToStart');
+
         // end game functionality
-        this.start_again_button = document.getElementById('startAgain-button');
-        this.game_done_menu = document.getElementById('gameDone-menu');
-        
-        this.quit_btn = document.getElementById('quit-button');
-        this.play_again_win_btn = document.getElementById('play-again-win-button');
-        this.quit_win_btn = document.getElementById('quit-win-button');
-        this.play_again_lose_btn = document.getElementById('play-again-lose-button');
-        this.quit_lose_btn = document.getElementById('quit-lose-button');
+        this.start_again_button = document.getElementById('restartGame');
+        this.game_done_menu = document.getElementById('gameDoneMenu');
 
-        this.win_menu = document.getElementById('win-menu');
-        this.lose_menu = document.getElementById('lose-menu');
+        this.quit_btn = document.getElementById('quitGame');
+        this.play_again_win_btn = document.getElementById('playAgainWin');
+        this.quit_win_btn = document.getElementById('quitWin');
+        this.play_again_lose_btn = document.getElementById('playAgainLose');
+        this.quit_lose_btn = document.getElementById('quitLose');
+
+        this.win_menu = document.getElementById('winMenu');
+        this.lose_menu = document.getElementById('loseMenu');
 
         // button event listeners
-        this.start_button.onclick = () => {
+        this.StartGame.onclick = () => {
             this.started = true;
             this.start_round_time = performance.now(); // Record the game start time
             this.start_menu.classList.add('hidden');
-            this.main_canvas.classList.remove('hidden');
+            this.mainPage.classList.remove('hidden');
             document.body.classList.add('transparent-box');
-        }
+        };
 
-        this.how_to_play.onclick = () => {
+        this.howToPlay.onclick = () => {
             this.start_menu.classList.add('hidden');
-            this.instructions_menu.classList.remove('hidden');
-        }
+            this.howToPlayText.classList.remove('hidden');
+        };
 
-        this.back_button.onclick = () => {
+        this.GoBack.onclick = () => {
             this.start_menu.classList.remove('hidden');
-            this.instructions_menu.classList.add('hidden');
-        }
+            this.howToPlayText.classList.add('hidden');
+        };
 
         this.start_again_button.onclick = () => {
             this.game_done_menu.classList.add('hidden');
-            this.main_canvas.classList.remove('hidden');
-        }
+            this.mainPageclassList.remove('hidden');
+        };
 
         this.quit_btn.onclick = () => {
             this.game_done_menu.classList.add('hidden');
             this.start_menu.classList.remove('hidden');
-        }
+        };
 
         this.play_again_win_btn.onclick = () => {
             this.win_menu.classList.add('hidden');
-            this.main_canvas.classList.remove('hidden');
-        }
+            this.mainPage.classList.remove('hidden');
+        };
 
         this.quit_win_btn.onclick = () => {
             this.win_menu.classList.add('hidden');
             this.start_menu.classList.remove('hidden');
-        }
+        };
 
         this.play_again_lose_btn.onclick = () => {
             this.lose_menu.classList.add('hidden');
-            this.main_canvas.classList.remove('hidden');
-        }
+            this.mainPage.classList.remove('hidden');
+        };
 
         this.quit_lose_btn.onclick = () => {
             this.lose_menu.classList.add('hidden');
-            this.start_menu.classList.remove('hidden');
-        }
-
+            this.MenuStart.classList.remove('hidden');
+        };
     }
+
     initializeGame() {
         // Objects in the scene
         console.log("Initializing game...");
         this.maze = new Maze();
         this.player = new Player(this.maze);
         this.egg = new Egg();
-      //this.health = new HealthBar(4);
-      //this.timer = new Timer(180);
-        // Boolean to change POVs
-        this.pov = true;
-        
+        this.pov = true; // Boolean to change POVs
+
         // Camera state
         this.current_camera_position = vec3(0, 0, 0);
         this.current_look_at_point = vec3(0, 0, 0);
     }
+
     WinGameCheck() {
         if (this.count_rounds >= 3) {
-            document.getElementById('main-canvas').classList.add('hidden');
-            document.getElementById('win-menu').classList.remove('hidden');
+            document.getElementById('mainCanvas').classList.add('hidden');
+            document.getElementById('winMenu').classList.remove('hidden');
             document.getElementById('win-image').style.display = 'block';
         }
     }
@@ -135,7 +129,7 @@ export class Game extends Scene {
         this.new_line();
         this.key_triggered_button("Turn Right", ["ArrowRight"], () => this.player.turn_right());
         this.new_line();
-        this.key_triggered_button("Toggle Map View", ["p"], function() { this.pov = !this.pov }.bind(this))
+        this.key_triggered_button("Toggle Map View", ["p"], () => { this.pov = !this.pov });
         this.new_line();
         this.key_triggered_button("Regenerate Maze", ["r"], () => this.regenerate_maze());
     }
@@ -157,26 +151,19 @@ export class Game extends Scene {
         const light_position = vec4(0, 10, 10, 1);
         program_state.lights = [new Light(light_position, color(1, 1, 1, 1), 1000)];
 
-        // this.timer.update(program_state);
         // Display the player, egg, and maze
         this.player.display(context, program_state);
         this.maze.display(context, program_state);
-        if(program_state.animation_time - this.start_round_time > 6000){//After 6 seconds render the egg
+        if (program_state.animation_time - this.start_round_time > 6000) { // After 6 seconds render the egg
             this.egg.display(context, program_state);
             this.egg.update_egg(this.maze, this.player.get_position());
         }
-        // Display the health bar
-        //this.health.display(context, program_state);
-
-        // Display the timer
-        //this.timer.display(context, program_state);
-
 
         let countDisplay = "Completed mazes: " + this.count_rounds;
         this.shapes.text.set_string(countDisplay, context.context);
         let counter_transform = Mat4.inverse(program_state.camera_inverse)
-            .times(Mat4.translation(5.0/16, 6.0/16, -1))
-            .times(Mat4.scale(1.0/64, 1.0/64, 1.0/64));
+            .times(Mat4.translation(5.0 / 16, 6.0 / 16, -1))
+            .times(Mat4.scale(1.0 / 64, 1.0 / 64, 1.0 / 64));
         this.shapes.text.draw(context, program_state, counter_transform, this.materials.text_image);
 
         // seconds
@@ -191,31 +178,25 @@ export class Game extends Scene {
             timerDisplay = "Time: " + this.minutes.toFixed(0) + ":0" + this.seconds.toFixed(0);
         this.shapes.timer.set_string(timerDisplay, context.context);
         let timer_transform = Mat4.inverse(program_state.camera_inverse)
-            .times(Mat4.translation(5.0/16, 5.0/16, -1))
-            .times(Mat4.scale(1.0/64, 1.0/64, 1.0/64));
+            .times(Mat4.translation(5.0 / 16, 5.0 / 16, -1))
+            .times(Mat4.scale(1.0 / 64, 1.0 / 64, 1.0 / 64));
         this.shapes.timer.draw(context, program_state, timer_transform, this.materials.text_image);
 
-
-        if (this.pov){
+        if (this.pov) {
             const player_position = this.player.get_position();
             const player_direction = this.player.get_direction();
-            
-            // Calculate camera position directly behind and slightly above the player
+
             const camera_offset = vec3(0, 2, 0.7);
-            const target_camera_position = player_position.plus(player_direction.times(camera_offset[2])).plus(vec3(0, camera_offset[1], 0));            
+            const target_camera_position = player_position.plus(player_direction.times(camera_offset[2])).plus(vec3(0, camera_offset[1], 0));
             const target_look_at_point = player_position.plus(player_direction.times(9));
-            
-            // Smoothly update the camera position            
-            // Interpolate between current and target positions for smooth transition
+
             this.current_camera_position = this.lerp(Vector.from(this.current_camera_position), Vector.from(target_camera_position), 0.1);
             this.current_look_at_point = this.lerp(Vector.from(this.current_look_at_point), Vector.from(target_look_at_point), 0.1);
 
-            // Calculate the new camera transform from the interpolated positions
             const new_camera_transform = Mat4.look_at(this.current_camera_position, this.current_look_at_point, vec3(0, 1, 0));
 
             program_state.set_camera(new_camera_transform);
-        } 
-        else{
+        } else {
             program_state.set_camera(Mat4.look_at(vec3(26, 80, 20), vec3(26, 0, 20), vec3(0, 0, -1)));
         }
 
@@ -224,7 +205,6 @@ export class Game extends Scene {
             this.WinGameCheck();
             this.start_round_time = program_state.animation_time;
             this.regenerate_maze();
-            // console.log(`count rounds: $(this.count_rounds)`);
         }
     }
 }
