@@ -118,6 +118,7 @@ export class Egg {
         this.rotation = 0.0;
         this.speed = 2;
         this.intervalId = null;
+        this.lastUpdateTime = null;
         this.shapes = {
             egg: new defs.Subdivision_Sphere(4) // Sphere shape, with a high subdivision for smoothness
         };
@@ -167,10 +168,20 @@ export class Egg {
         }, 250/60); // This determines the speed of the egg
     }
 
+    dist_btwn(vec1, vec2) {
+        const dx = vec2[0] - vec1[0];
+        const dy = vec2[1] - vec1[1];
+        const dz = vec2[2] - vec1[2];
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
     //Update the eggs position based on if the egg or player is moving
     update_egg(maze, player_position){
-        if (!this.lastPlayerPosition || !this.lastPlayerPosition.equals(player_position)) {
+        //Consider the players position and time elapsed
+        const playerMoved = !this.lastPlayerPosition || this.dist_btwn(player_position, this.lastPlayerPosition) > 10;
+        const timeElapsed = this.lastUpdateTime ? Date.now() - this.lastUpdateTime >= 10000 : true; 
+        if (playerMoved || timeElapsed) {
             this.lastPlayerPosition = player_position;
+            this.lastUpdateTime = Date.now();
             if (this.intervalId){
                 clearInterval(this.intervalId);
                 this.intervalId = null;
