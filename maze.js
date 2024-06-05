@@ -144,6 +144,8 @@ export class Maze {
         const x = Math.floor(position[0]/2);
         const z = Math.floor(position[2]/2);
 
-        return (x == 26 && z == 20);
+        console.log(x,z,"emd");
+
+        return (x == 26 && z == 20 || x == 26 && z == 21 || x == 26 && z == 19 || x == 27 && z == 20  );
     }
 }
