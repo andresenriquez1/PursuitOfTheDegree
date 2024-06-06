@@ -145,7 +145,7 @@ export class Game extends Scene {
     LoseGameCheck()
     {
         // console.log(this.seconds, "seconds check");
-        if(this.count_rounds ==0 && this.seconds ==959)
+        if(this.count_rounds ==0 && this.seconds ==59)
             {
                 
                 document.getElementById('mainCanvas').classList.add('hidden');
