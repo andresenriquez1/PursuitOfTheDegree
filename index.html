@@ -39,6 +39,33 @@
             height: 70%;
             z-index: -1; /* Ensure the image is behind the text */
         }
+        #loseMenu {
+    background-color: black;
+    color: red;
+    text-align: center; 
+    padding: 20px; 
+    border-radius: 10px; 
+}
+
+#loseMenu h1 {
+    margin: 0;
+    padding: 20px 0;
+}
+
+#loseMenu button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: red;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#loseMenu button:hover {
+    background-color: darkred;
+}
+
     </style>
 </head>
 <body>
@@ -62,9 +89,6 @@
 </div>
 
 <div id="gameDoneMenu" class="centered-menu hidden">
-    <h1 id="gameDoneMessage"></h1>
-    <h2 id="difficulty"></h2>
-    <h2 id="timer"></h2>
     <button id="restartGame">Play Again</button>
     <button id="quitGame">Quit</button>
 </div>
@@ -77,8 +101,9 @@
     <button id="quitWin">Quit</button>
 </div>
 
-<div id="loseMenu" class="centered-menu hidden">
-    <h1>Game Over</h1>
+<div id="loseMenu" class="centered-menu hidden" >
+    <h1>Game Over, You got Egged</h1>
+    <img id="losingDisplay" src="./assets/Egg.png" alt="Losing">
     <button id="playAgainLose">Play Again</button>
     <button id="quitLose">Quit</button>
 </div>

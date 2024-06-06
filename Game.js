@@ -19,6 +19,7 @@ export class Game extends Scene {
         this.minutes = 0;
         this.start_round_time = 0;
         this.started = false;
+       
 
         this.materials = {
             text_image: new Material(new defs.Textured_Phong(), {
@@ -53,7 +54,7 @@ export class Game extends Scene {
         this.StartGame.onclick = () => {
             this.started = true;
             this.start_round_time = performance.now(); // Record the game start time
-            this.start_menu.classList.add('hidden');
+            this.MenuStart.classList.add('hidden');
             this.mainPage.classList.remove('hidden');
             document.body.classList.add('transparent-box');
         };
@@ -106,6 +107,7 @@ export class Game extends Scene {
         this.player = new Player(this.maze);
         this.egg = new Egg();
         this.pov = true; // Boolean to change POVs
+        this.POVUsedToManyTimesBruh=6;
 
         // Camera state
         this.current_camera_position = vec3(0, 0, 0);
@@ -120,6 +122,31 @@ export class Game extends Scene {
         }
     }
 
+    LoseGameCheck()
+    {
+        // console.log(this.seconds, "seconds check");
+        if(this.count_rounds ==0 && this.seconds ==59)
+            {
+                
+                document.getElementById('mainCanvas').classList.add('hidden');
+                document.getElementById('loseMenu').classList.remove('hidden');
+                document.getElementById('losingDisplay').style.display = 'block';
+
+            }
+            if(this.count_rounds ==1  && this.seconds ==45)
+                {//you lose
+                    document.getElementById('mainCanvas').classList.add('hidden');
+                    document.getElementById('loseMenu').classList.remove('hidden');
+                    document.getElementById('losingDisplay').style.display = 'block';
+                }
+                if(this.count_rounds ==2 && this.seconds ==35)
+                    {//you lose
+                        document.getElementById('mainCanvas').classList.add('hidden');
+                        document.getElementById('loseMenu').classList.remove('hidden');
+                        document.getElementById('losingDisplay').style.display = 'block';
+                    }
+    }
+
     make_control_panel() {
         this.key_triggered_button("Move Forward", ["ArrowUp"], () => this.player.move_forward(this.maze));
         this.new_line();
@@ -129,13 +156,26 @@ export class Game extends Scene {
         this.new_line();
         this.key_triggered_button("Turn Right", ["ArrowRight"], () => this.player.turn_right());
         this.new_line();
-        this.key_triggered_button("Toggle Map View", ["p"], () => { this.pov = !this.pov });
+        // this.key_triggered_button("Toggle Map View", ["p"], () => { this.pov = !this.pov });
+        this.key_triggered_button("Toggle Map View", ["p"], () => {
+            if (this.POVUsedToManyTimesBruh > 0) {
+                this.pov = !this.pov;
+                this.POVUsedToManyTimesBruh--;
+                console.log(`POV toggled. Remaining uses: ${this.POVUsedToManyTimesBruh}`);
+            } else {
+                this.pov = true; // Force first-person POV
+                console.log("First-person POV only. Counter has reached zero.");
+            }
+        });
+    
         this.new_line();
         this.key_triggered_button("Regenerate Maze", ["r"], () => this.regenerate_maze());
     }
 
     regenerate_maze() {
+        this.POVUsedToManyTimesBruh=6;
         this.initializeGame();
+
     }
 
     // Linear interpolation function
@@ -171,6 +211,8 @@ export class Game extends Scene {
 
         this.seconds = Math.floor((adjusted_time / 1000) % 60);
         this.minutes = Math.floor((adjusted_time / 1000) / 60);
+
+        this.LoseGameCheck();
 
         // minutes
         let timerDisplay = "Time: " + this.minutes.toFixed(0) + ":" + this.seconds.toFixed(0);
