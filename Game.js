@@ -122,10 +122,30 @@ export class Game extends Scene {
         }
     }
 
+    LoseGameBecauseOfEgg()
+    {
+        const egg_x = Math.round(this.egg.position[0]/2 );
+        const egg_z = Math.round(this.egg.position[2]/2 );
+            const player_x = Math.round(this.player.position[0] / 2);
+            const player_z = Math.round(this.player.position[2] / 2);
+
+           
+
+            if (egg_x === player_x && egg_z === player_z || (egg_x === player_x -1) && egg_z === player_z-1 || (egg_x === player_x -1) && egg_z === player_z || (egg_x === player_x) && egg_z === player_z-1 || (egg_x === player_x+1) && (egg_z === player_z+1)) {
+                // Move player to the end of the maze (25, 18)
+                //this.maze.key_position = null; // Remove key from the maze
+                console.log("Collision with egg and playerrrr");
+                document.getElementById('mainCanvas').classList.add('hidden');
+                document.getElementById('loseMenu').classList.remove('hidden');
+                document.getElementById('losingDisplay').style.display = 'block';
+
+            }
+    }
+
     LoseGameCheck()
     {
         // console.log(this.seconds, "seconds check");
-        if(this.count_rounds ==0 && this.seconds ==59)
+        if(this.count_rounds ==0 && this.seconds ==959)
             {
                 
                 document.getElementById('mainCanvas').classList.add('hidden');
@@ -197,6 +217,7 @@ export class Game extends Scene {
         if (program_state.animation_time - this.start_round_time > 6000) { // After 6 seconds render the egg
             this.egg.display(context, program_state);
             this.egg.update_egg(this.maze, this.player.get_position());
+            this.LoseGameBecauseOfEgg();
         }
 
         let countDisplay = "Completed mazes: " + this.count_rounds;
@@ -213,6 +234,7 @@ export class Game extends Scene {
         this.minutes = Math.floor((adjusted_time / 1000) / 60);
 
         this.LoseGameCheck();
+        
 
         // minutes
         let timerDisplay = "Time: " + this.minutes.toFixed(0) + ":" + this.seconds.toFixed(0);

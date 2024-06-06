@@ -142,13 +142,32 @@ export class Egg {
         return path 
     }
 
-    move_egg(path){
+    move_egg(path,player_position){
         if (!path){
             return
         }
         let counter = 0;
         let lerpAmount = 0;
         let currentTarget = vec3(path[counter].y * 2, 1, path[counter].x * 2);
+
+        // const egg_x = Math.round(this.position[0]/2 );
+        // const egg_z = Math.round(this.position[2]/2 );
+
+        //     // console.log(maze.key_position[2],"mazekey");
+        //     // console.log(maze.key_position[0],"mazekey2");
+        //     const player_x = Math.round(player_position[0] / 2);
+        //     const player_z = Math.round(player_position[2] / 2);
+
+        //     console.log(egg_x,egg_z, "keysss");
+        //     console.log(player_x,player_z, "plasy");
+
+        //     if (egg_x === player_x && egg_z === player_z || (egg_x === player_x -1) && egg_z === player_z-1 || (egg_x === player_x+1) && (egg_z === player_z+1)) {
+        //         // Move player to the end of the maze (25, 18)
+        //         //this.maze.key_position = null; // Remove key from the maze
+        //         console.log("Collision with egg and playerrrr");
+        //     }
+
+        
         this.intervalId = setInterval(() => {
             if (counter < path.length) {
                 const nextTarget = vec3(path[counter].y * 2, 1, path[counter].x * 2);
@@ -187,7 +206,7 @@ export class Egg {
                 this.intervalId = null;
             }
             const path = this.calculate_path(maze, player_position);
-            this.move_egg(path);
+            this.move_egg(path,player_position);
         }
     }
 
