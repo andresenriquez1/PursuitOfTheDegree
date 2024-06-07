@@ -30,49 +30,59 @@
         .hidden {
             display: none;
         }
-        .transparent-box {
-            background: rgba(255, 255, 255, 0.8);
+        #win-image {
+            width: 50%;
+            height: 75%;
+            display: block;
+            margin: 20px auto; /* Center the image and add some space above and below */
+        }
+        .menu-button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 80%; /* Ensure buttons are wide enough and aligned */
+            max-width: 200px;
+            margin: 10px auto; /* Center buttons horizontally */
+        }
+        .menu-button:hover {
+            background-color: #0056b3;
+        }
+        #loseMenu {
+            background-color: black;
+            color: red;
+            text-align: center;
             padding: 20px;
             border-radius: 10px;
         }
-        #win-image {
-            height: 70%;
-            z-index: -1; /* Ensure the image is behind the text */
+        #loseMenu h1 {
+            margin: 0;
+            padding: 20px 0;
         }
-        #loseMenu {
-    background-color: black;
-    color: red;
-    text-align: center; 
-    padding: 20px; 
-    border-radius: 10px; 
-}
-
-#loseMenu h1 {
-    margin: 0;
-    padding: 20px 0;
-}
-
-#loseMenu button {
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: red;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#loseMenu button:hover {
-    background-color: darkred;
-}
-
+        #loseMenu button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #loseMenu button:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 <body>
 <div id="startMenu" class="centered-menu">
     <h1 id="welcomeMessage">Pursuit Of The Degree</h1>
-    <button id="howToPlay">How to Play</button>
-    <button id="startGame">Start Game</button>
+    <button id="howToPlay" class="menu-button">How to Play</button>
+    <button id="startGame" class="menu-button">Start Game</button>
 </div>
 
 <div id="instructionsMenu" class="centered-menu hidden">
@@ -84,28 +94,23 @@
         <p>There will be a total of 3 mazes you must complete in order to win your degree</p>
         <p>A key in the second game, along with an elevator can fast track you to the end of the second maze</p>
         <p>The third maze will have no help from a key, so you must navigate it before the egg reaches you.</p>
-        <button id="backToStart">Back</button>
+        <button id="backToStart" class="menu-button">Back</button>
     </div>
 </div>
-<!-- 
-<div id="gameDoneMenu" class="centered-menu hidden">
-    <button id="restartGame">Play Again</button>
-    <button id="quitGame">Quit</button>
-</div> -->
 
 <div id="winMenu" class="centered-menu hidden">
     <h1>Congratulations!</h1>
     <h2>You completed the maze!</h2>
     <img id="win-image" src="./assets/degree.jpg" alt="Win Image">
-    <button id="playAgainWin">Play Again</button>
-    <button id="quitWin">Quit</button>
+    
+    <button id="quitWin" class="menu-button">Back to Main Menu</button>
 </div>
 
-<div id="loseMenu" class="centered-menu hidden" >
+<div id="loseMenu" class="centered-menu hidden">
     <h1>Game Over, You got Egged</h1>
     <img id="losingDisplay" src="./assets/Egg.png" alt="Losing">
-    <button id="playAgainLose">Play Again</button>
-    <button id="quitLose">Quit</button>
+    
+    <button id="quitLose" class="menu-button">Back to Main Menu</button>
 </div>
 
 <div class="canvas-widget hidden" id="mainCanvas"></div>
@@ -116,52 +121,6 @@
     new Canvas_Widget(element_to_replace, scenes);
 </script>
 
-<!-- <script>
-    document.getElementById('startGame').addEventListener('click', () => {
-        document.getElementById('startMenu').classList.add('hidden');
-        document.getElementById('mainCanvas').classList.remove('hidden');
-        document.body.classList.add('transparent-box'); // Change background to solid color
-    });
 
-    document.getElementById('howToPlay').addEventListener('click', () => {
-        document.getElementById('startMenu').classList.add('hidden');
-        document.getElementById('instructionsMenu').classList.remove('hidden');
-    });
-
-    document.getElementById('backToStart').addEventListener('click', () => {
-        document.getElementById('instructionsMenu').classList.add('hidden');
-        document.getElementById('startMenu').classList.remove('hidden');
-    });
-
-    document.getElementById('restartGame').addEventListener('click', () => {
-        document.getElementById('gameDoneMenu').classList.add('hidden');
-        document.getElementById('mainCanvas').classList.remove('hidden');
-    });
-
-    document.getElementById('quitGame').addEventListener('click', () => {
-        document.getElementById('gameDoneMenu').classList.add('hidden');
-        document.getElementById('startMenu').classList.remove('hidden');
-    });
-
-    document.getElementById('playAgainWin').addEventListener('click', () => {
-        document.getElementById('winMenu').classList.add('hidden');
-        document.getElementById('mainCanvas').classList.remove('hidden');
-    });
-
-    document.getElementById('quitWin').addEventListener('click', () => {
-        document.getElementById('winMenu').classList.add('hidden');
-        document.getElementById('startMenu').classList.remove('hidden');
-    });
-
-    document.getElementById('playAgainLose').addEventListener('click', () => {
-        document.getElementById('loseMenu').classList.add('hidden');
-        document.getElementById('mainCanvas').classList.remove('hidden');
-    });
-
-    document.getElementById('quitLose').addEventListener('click', () => {
-        document.getElementById('loseMenu').classList.add('hidden');
-        document.getElementById('startMenu').classList.remove('hidden');
-    });
-</script> -->
 </body>
 </html>
