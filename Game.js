@@ -38,10 +38,10 @@ export class Game extends Scene {
         this.GoBack = document.getElementById('backToStart');
 
         // end game functionality
-        this.start_again_button = document.getElementById('restartGame');
-        this.game_done_menu = document.getElementById('gameDoneMenu');
+        // this.start_again_button = document.getElementById('restartGame');
+        // this.game_done_menu = document.getElementById('gameDoneMenu');
 
-        this.quit_btn = document.getElementById('quitGame');
+        // this.quit_btn = document.getElementById('quitGame');
         this.play_again_win_btn = document.getElementById('playAgainWin');
         this.quit_win_btn = document.getElementById('quitWin');
         this.play_again_lose_btn = document.getElementById('playAgainLose');
@@ -56,47 +56,74 @@ export class Game extends Scene {
             this.start_round_time = performance.now(); // Record the game start time
             this.MenuStart.classList.add('hidden');
             this.mainPage.classList.remove('hidden');
-            document.body.classList.add('transparent-box');
+            document.body.classList.add('transparent-box'); // Change background to solid color
         };
 
         this.howToPlay.onclick = () => {
-            this.start_menu.classList.add('hidden');
+            this.MenuStart.classList.add('hidden');
             this.howToPlayText.classList.remove('hidden');
         };
 
         this.GoBack.onclick = () => {
-            this.start_menu.classList.remove('hidden');
+            this.MenuStart.classList.remove('hidden');
             this.howToPlayText.classList.add('hidden');
         };
 
-        this.start_again_button.onclick = () => {
-            this.game_done_menu.classList.add('hidden');
-            this.mainPageclassList.remove('hidden');
-        };
+        // this.start_again_button.onclick = () => {
+        //     this.game_done_menu.classList.add('hidden');
+        //     this.mainPage.classList.remove('hidden');
+        // };
 
-        this.quit_btn.onclick = () => {
-            this.game_done_menu.classList.add('hidden');
-            this.start_menu.classList.remove('hidden');
-        };
+        // this.quit_btn.onclick = () => {
+        //     this.game_done_menu.classList.add('hidden');
+        //     this.start_menu.classList.remove('hidden');
+        // };
 
         this.play_again_win_btn.onclick = () => {
-            this.win_menu.classList.add('hidden');
-            this.mainPage.classList.remove('hidden');
+            document.getElementById('winMenu').classList.add('hidden');
+            document.getElementById('mainCanvas').classList.remove('hidden');
+
+            this.count_rounds = 0;
+            this.seconds = 0;
+            this.minutes = 0;
+            this.start_round_time = 0;
+            this.started = true;
+            this.start_round_time = performance.now(); // Record the game start time
         };
 
         this.quit_win_btn.onclick = () => {
-            this.win_menu.classList.add('hidden');
-            this.start_menu.classList.remove('hidden');
+            document.getElementById('winMenu').classList.add('hidden');
+            document.getElementById('startMenu').classList.remove('hidden');
+
+            this.count_rounds = 0;
+            this.seconds = 0;
+            this.minutes = 0;
+            this.start_round_time = 0;
+            this.started = false;
         };
 
         this.play_again_lose_btn.onclick = () => {
-            this.lose_menu.classList.add('hidden');
-            this.mainPage.classList.remove('hidden');
+            document.getElementById('loseMenu').classList.add('hidden');
+            document.getElementById('mainCanvas').classList.remove('hidden');
+
+            this.count_rounds = 0;
+            this.seconds = 0;
+            this.minutes = 0;
+            this.start_round_time = 0;
+            this.started = false;
         };
 
         this.quit_lose_btn.onclick = () => {
-            this.lose_menu.classList.add('hidden');
-            this.MenuStart.classList.remove('hidden');
+            document.getElementById('loseMenu').classList.add('hidden');
+            document.getElementById('startMenu').classList.remove('hidden');
+            document.body.classList.remove('transparent-box'); // Change background to solid color
+
+
+            this.count_rounds = 0;
+            this.seconds = 0;
+            this.minutes = 0;
+            this.start_round_time = 0;
+            this.started = false;
         };
     }
 
@@ -115,7 +142,7 @@ export class Game extends Scene {
     }
 
     WinGameCheck() {
-        if (this.count_rounds >= 3) {
+        if (this.count_rounds >= 1) {           // 3
             document.getElementById('mainCanvas').classList.add('hidden');
             document.getElementById('winMenu').classList.remove('hidden');
             document.getElementById('win-image').style.display = 'block';
