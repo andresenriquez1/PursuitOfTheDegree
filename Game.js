@@ -56,16 +56,16 @@ export class Game extends Scene {
             this.start_round_time = performance.now(); // Record the game start time
             this.MenuStart.classList.add('hidden');
             this.mainPage.classList.remove('hidden');
-            document.body.classList.add('transparent-box');
+            document.body.classList.add('transparent-box'); // Change background to solid color
         };
 
         this.howToPlay.onclick = () => {
-            this.start_menu.classList.add('hidden');
+            this.MenuStart.classList.add('hidden');
             this.howToPlayText.classList.remove('hidden');
         };
 
         this.GoBack.onclick = () => {
-            this.start_menu.classList.remove('hidden');
+            this.MenuStart.classList.remove('hidden');
             this.howToPlayText.classList.add('hidden');
         };
 
@@ -82,21 +82,45 @@ export class Game extends Scene {
         this.play_again_win_btn.onclick = () => {
             this.win_menu.classList.add('hidden');
             this.mainPage.classList.remove('hidden');
+
+            this.count_rounds = 0;
+            this.seconds = 0;
+            this.minutes = 0;
+            this.start_round_time = 0;
+            this.started = false;
         };
 
         this.quit_win_btn.onclick = () => {
             this.win_menu.classList.add('hidden');
             this.start_menu.classList.remove('hidden');
+
+            this.count_rounds = 0;
+            this.seconds = 0;
+            this.minutes = 0;
+            this.start_round_time = 0;
+            this.started = false;
         };
 
         this.play_again_lose_btn.onclick = () => {
             this.lose_menu.classList.add('hidden');
             this.mainPage.classList.remove('hidden');
+
+            this.count_rounds = 0;
+            this.seconds = 0;
+            this.minutes = 0;
+            this.start_round_time = 0;
+            this.started = false;
         };
 
         this.quit_lose_btn.onclick = () => {
             this.lose_menu.classList.add('hidden');
             this.MenuStart.classList.remove('hidden');
+
+            this.count_rounds = 0;
+            this.seconds = 0;
+            this.minutes = 0;
+            this.start_round_time = 0;
+            this.started = false;
         };
     }
 
