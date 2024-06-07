@@ -55,7 +55,7 @@ export class Graph {
 
         // Initialize open set with starting node
         let openSet = [start];
-        console.log(start);
+        //console.log(start);
         while (openSet.length > 0) {
             // Get the node in the open set with the lowest fScore
             let minFScore = openSet[0].fScore;
@@ -153,18 +153,18 @@ export class Egg {
         // const egg_x = Math.round(this.position[0]/2 );
         // const egg_z = Math.round(this.position[2]/2 );
 
-        //     // console.log(maze.key_position[2],"mazekey");
-        //     // console.log(maze.key_position[0],"mazekey2");
+        //     // //console.log(maze.key_position[2],"mazekey");
+        //     // //console.log(maze.key_position[0],"mazekey2");
         //     const player_x = Math.round(player_position[0] / 2);
         //     const player_z = Math.round(player_position[2] / 2);
 
-        //     console.log(egg_x,egg_z, "keysss");
-        //     console.log(player_x,player_z, "plasy");
+        //     //console.log(egg_x,egg_z, "keysss");
+        //     //console.log(player_x,player_z, "plasy");
 
         //     if (egg_x === player_x && egg_z === player_z || (egg_x === player_x -1) && egg_z === player_z-1 || (egg_x === player_x+1) && (egg_z === player_z+1)) {
         //         // Move player to the end of the maze (25, 18)
         //         //this.maze.key_position = null; // Remove key from the maze
-        //         console.log("Collision with egg and playerrrr");
+        //         //console.log("Collision with egg and playerrrr");
         //     }
 
         

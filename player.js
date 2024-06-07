@@ -24,12 +24,12 @@ export class Player {
         this.materials = {
             plastic: new Material(new Textured_Phong(), {
                 color: hex_color("#ffffff"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
-               // texture: new Texture("assets/andres.jpg")
-                //texture: new Texture("assets/player_texture.jpg") // Add texture for more realism
+                texture: new Texture("assets/andres.jpg")
+                
             }),
             head: new Material(new Textured_Phong(), {
                 color: hex_color("#ffcc99"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
-                texture: new Texture("assets/minecraft.jpg") // Texture for the head
+                texture: new Texture("assets/andres.jpg") // Texture for the head
             }),
             body: new Material(new Textured_Phong(), {
                 color: hex_color("ffcc99"), ambient: 0.5, diffusivity: 0.5, specularity: 0.5,
@@ -62,15 +62,15 @@ export class Player {
         
 
 
-        console.log(corners);
+        ////console.log(corners);
     
         for (let corner of corners) {
-            console.log(corner);
+           // //console.log(corner);
             let x = Math.round(corner[0] / 2);
             let z = Math.round(corner[2] / 2);
             let y = Math.round(corner[1] / 2);
 
-            //console.log(y,"y baby");
+            ////console.log(y,"y baby");
 
            
     
@@ -79,10 +79,10 @@ export class Player {
             z = Math.max(0, Math.min(z, maze.maze_layout[0].length - 1));
 
            
-            console.log(maze.maze_layout[x][z],"what is the maze here baby");
+            //console.log(maze.maze_layout[x][z],"what is the maze here baby");
             if( x <=-1 && z<=-1) return true;
             if (maze.maze_layout[x][z] === 1) {
-                console.log(`Collision detected at: x=${x}, z=${z}`);
+                //console.log(`Collision detected at: x=${x}, z=${z}`);
                 return true;
             }
         }
@@ -93,20 +93,20 @@ export class Player {
             const key_x = Math.round(maze.key_position[0]/2 );
             const key_z = Math.round(maze.key_position[2]/2 );
 
-            // console.log(maze.key_position[2],"mazekey");
-            // console.log(maze.key_position[0],"mazekey2");
+            // //console.log(maze.key_position[2],"mazekey");
+            // //console.log(maze.key_position[0],"mazekey2");
             const player_x = Math.round(this.position[0] / 2);
             const player_z = Math.round(this.position[2] / 2);
 
-            console.log(key_x,key_z, "keysss");
-            console.log(player_x,player_x, "plasy");
+            //console.log(key_x,key_z, "keysss");
+            //console.log(player_x,player_x, "plasy");
             
 
             if (key_x === player_x && key_z === player_z || (key_x === player_x -1) && key_z === player_z-1 || (key_x === player_x+1) && (key_z === player_z+1)) {
                 this.has_key = true;
                 this.position = vec3(52, 1, 40); // Move player to the end of the maze (25, 18)
                 //this.maze.key_position = null; // Remove key from the maze
-                console.log("Key collected!");
+                //console.log("Key collected!");
             }
         
     }
@@ -122,11 +122,11 @@ export class Player {
     
     // Pass the maze, so it can use the updated maze
     move_forward(maze) {
-        console.log(`Current position: ${this.position}`)
+        //console.log(`Current position: ${this.position}`)
 
         let next_position = this.position.plus(this.direction);
         if (!this.checkCollision(next_position, maze, 'f')) {
-            console.log(`Moving forward to: ${next_position}`);
+            //console.log(`Moving forward to: ${next_position}`);
             this.position = next_position;
             this.checkForKey(maze);
 
@@ -135,10 +135,10 @@ export class Player {
     
     // Pass the maze, so it can use the updated maze
     move_backward(maze) {
-        console.log(`Current position: ${this.position}`)
+        //console.log(`Current position: ${this.position}`)
         let next_position = this.position.minus(this.direction);
         if (!this.checkCollision(next_position, maze, 'b')) {
-            console.log(`Moving backward to: ${next_position}`);
+            //console.log(`Moving backward to: ${next_position}`);
 
             this.position = next_position;
             this.checkForKey(maze);

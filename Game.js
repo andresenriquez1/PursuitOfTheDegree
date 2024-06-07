@@ -96,7 +96,7 @@ export class Game extends Scene {
 
     initializeGame() {
         // Objects in the scene
-        console.log("Initializing game...");
+        //console.log("Initializing game...");
         this.maze = new Maze();
         this.player = new Player(this.maze);
         this.egg = new Egg();
@@ -133,7 +133,7 @@ export class Game extends Scene {
             if (egg_x === player_x && egg_z === player_z || (egg_x === player_x -1) && egg_z === player_z-1 || (egg_x === player_x -1) && egg_z === player_z || (egg_x === player_x) && egg_z === player_z-1 || (egg_x === player_x+1) && (egg_z === player_z+1)) {
                 // Move player to the end of the maze (25, 18)
                 //this.maze.key_position = null; // Remove key from the maze
-                console.log("Collision with egg and playerrrr");
+                //console.log("Collision with egg and playerrrr");
                 document.getElementById('mainCanvas').classList.add('hidden');
                 document.getElementById('loseMenu').classList.remove('hidden');
                 document.getElementById('losingDisplay').style.display = 'block';
@@ -144,7 +144,7 @@ export class Game extends Scene {
 
     LoseGameCheck()
     {
-        // console.log(this.seconds, "seconds check");
+        // //console.log(this.seconds, "seconds check");
         if(this.count_rounds ==0 && this.seconds ==59)
             {
                 
@@ -181,10 +181,10 @@ export class Game extends Scene {
             if (this.POVUsedToManyTimesBruh > 0) {
                 this.pov = !this.pov;
                 this.POVUsedToManyTimesBruh--;
-                console.log(`POV toggled. Remaining uses: ${this.POVUsedToManyTimesBruh}`);
+                //console.log(`POV toggled. Remaining uses: ${this.POVUsedToManyTimesBruh}`);
             } else {
                 this.pov = true; // Force first-person POV
-                console.log("First-person POV only. Counter has reached zero.");
+                //console.log("First-person POV only. Counter has reached zero.");
             }
         });
     

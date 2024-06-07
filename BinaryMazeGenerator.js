@@ -13,7 +13,7 @@ export class BinaryTreeMaze {
 
     // Create an empty grid filled with walls
     createEmptyMazeGrid() {
-        console.log("1");
+        //console.log("1");
         const grid = [];
         for (let rowIndex = 0; rowIndex < this.mazeHeight; rowIndex++) {
             grid.push([]);
@@ -26,7 +26,7 @@ export class BinaryTreeMaze {
 
     // Determine the skew direction for the maze
     determineSkewDirection(skewDirection) {
-        console.log("2");
+        //console.log("2");
         const skewDirections = {
             "NW": [[1, 0], [0, -1]],
             "NE": [[1, 0], [0, 1]],
@@ -42,7 +42,7 @@ export class BinaryTreeMaze {
 
     // Generate the maze using the binary tree algorithm
     generateMaze() {
-        console.log("3");
+        //console.log("3");
         for (let row = 1; row < this.mazeHeight; row += 2) {
             for (let col = 1; col < this.mazeWidth; col += 2) {
                 this.mazeGrid[row][col] = 0;
@@ -55,7 +55,7 @@ export class BinaryTreeMaze {
 
     // Find a neighboring cell to connect
     findMazeNeighbor(currentRow, currentCol) {
-        console.log("4");
+        //console.log("4");
         const TheFoundneighbors = [];
         for (const [rowOffset, colOffset] of this.skewDirection) {
             const AneighboringColumn = currentCol + colOffset;
