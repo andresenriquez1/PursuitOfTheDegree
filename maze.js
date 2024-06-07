@@ -95,7 +95,7 @@ export class Maze {
         while (!placed) {
             const x = Math.round(Math.random() * (this.width - 2)) + 1;
             const z = Math.round(Math.random() * (this.height - 2)) + 1;
-            console.log(x,z, "orignal mazw layout for key");
+            //console.log(x,z, "orignal mazw layout for key");
             if (this.maze_layout[x][z] === 0) { // Ensure the key is placed in an empty cell
                 this.key_position = vec3(x , 1, z);
                 
@@ -146,7 +146,7 @@ export class Maze {
         const x = Math.floor(position[0]/2);
         const z = Math.floor(position[2]/2);
 
-        console.log(x,z,"emd");
+        //console.log(x,z,"emd");
 
         return (x == 26 && z == 20 || x == 26 && z == 21 || x == 26 && z == 19 || x == 27 && z == 20  );
     }
