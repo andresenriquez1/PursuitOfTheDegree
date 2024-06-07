@@ -28,7 +28,7 @@ export class Game extends Scene {
             })
         };
 
-        // start game functionality
+        
         this.MenuStart = document.getElementById('startMenu');
         this.StartGame = document.getElementById('startGame');
         this.mainPage = document.getElementById('mainCanvas');
@@ -37,21 +37,17 @@ export class Game extends Scene {
         this.howToPlayText = document.getElementById('instructionsMenu');
         this.GoBack = document.getElementById('backToStart');
 
-        // end game functionality
-        // this.start_again_button = document.getElementById('restartGame');
-        // this.game_done_menu = document.getElementById('gameDoneMenu');
-
-        // this.quit_btn = document.getElementById('quitGame');
-        this.play_again_win_btn = document.getElementById('playAgainWin');
+        
         this.quit_win_btn = document.getElementById('quitWin');
-        this.play_again_lose_btn = document.getElementById('playAgainLose');
+
         this.quit_lose_btn = document.getElementById('quitLose');
 
         this.win_menu = document.getElementById('winMenu');
         this.lose_menu = document.getElementById('loseMenu');
 
-        // button event listeners
+        
         this.StartGame.onclick = () => {
+            this.initializeGame();
             this.started = true;
             this.start_round_time = performance.now(); // Record the game start time
             this.MenuStart.classList.add('hidden');
@@ -69,31 +65,11 @@ export class Game extends Scene {
             this.howToPlayText.classList.add('hidden');
         };
 
-        // this.start_again_button.onclick = () => {
-        //     this.game_done_menu.classList.add('hidden');
-        //     this.mainPage.classList.remove('hidden');
-        // };
-
-        // this.quit_btn.onclick = () => {
-        //     this.game_done_menu.classList.add('hidden');
-        //     this.start_menu.classList.remove('hidden');
-        // };
-
-        this.play_again_win_btn.onclick = () => {
-            document.getElementById('winMenu').classList.add('hidden');
-            document.getElementById('mainCanvas').classList.remove('hidden');
-
-            this.count_rounds = 0;
-            this.seconds = 0;
-            this.minutes = 0;
-            this.start_round_time = 0;
-            this.started = true;
-            this.start_round_time = performance.now(); // Record the game start time
-        };
 
         this.quit_win_btn.onclick = () => {
             document.getElementById('winMenu').classList.add('hidden');
             document.getElementById('startMenu').classList.remove('hidden');
+            document.body.classList.remove('transparent-box');
 
             this.count_rounds = 0;
             this.seconds = 0;
@@ -102,17 +78,7 @@ export class Game extends Scene {
             this.started = false;
         };
 
-        this.play_again_lose_btn.onclick = () => {
-            document.getElementById('loseMenu').classList.add('hidden');
-            document.getElementById('mainCanvas').classList.remove('hidden');
-
-            this.count_rounds = 0;
-            this.seconds = 0;
-            this.minutes = 0;
-            this.start_round_time = 0;
-            this.started = false;
-        };
-
+      
         this.quit_lose_btn.onclick = () => {
             document.getElementById('loseMenu').classList.add('hidden');
             document.getElementById('startMenu').classList.remove('hidden');
@@ -142,7 +108,7 @@ export class Game extends Scene {
     }
 
     WinGameCheck() {
-        if (this.count_rounds >= 1) {           // 3
+        if (this.count_rounds ==3 ) {           // 3
             document.getElementById('mainCanvas').classList.add('hidden');
             document.getElementById('winMenu').classList.remove('hidden');
             document.getElementById('win-image').style.display = 'block';
@@ -151,6 +117,11 @@ export class Game extends Scene {
 
     LoseGameBecauseOfEgg()
     {
+        if (this.count_rounds <3)
+            {
+
+          
+            
         const egg_x = Math.round(this.egg.position[0]/2 );
         const egg_z = Math.round(this.egg.position[2]/2 );
             const player_x = Math.round(this.player.position[0] / 2);
@@ -167,6 +138,7 @@ export class Game extends Scene {
                 document.getElementById('losingDisplay').style.display = 'block';
 
             }
+        }
     }
 
     LoseGameCheck()
@@ -216,14 +188,14 @@ export class Game extends Scene {
         });
     
         this.new_line();
-        this.key_triggered_button("Regenerate Maze", ["r"], () => this.regenerate_maze());
+        //this.key_triggered_button("Regenerate Maze", ["r"], () => this.regenerate_maze());
     }
 
-    regenerate_maze() {
-        this.POVUsedToManyTimesBruh=6;
-        this.initializeGame();
+     regenerate_maze() {
+         //this.POVUsedToManyTimesBruh=6;
+         this.initializeGame();
 
-    }
+     }
 
     // Linear interpolation function
     lerp(a, b, t) {
