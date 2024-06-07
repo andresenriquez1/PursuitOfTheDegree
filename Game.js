@@ -167,13 +167,13 @@ export class Game extends Scene {
     }
 
     make_control_panel() {
-        this.key_triggered_button("Move Forward", ["ArrowUp"], () => this.player.move_forward(this.maze));
+        this.key_triggered_button("Move Forward", ["ArrowUp"], () => {if(this.pov) this.player.move_forward(this.maze)});
         this.new_line();
-        this.key_triggered_button("Move Backward", ["ArrowDown"], () => this.player.move_backward(this.maze));
+        this.key_triggered_button("Move Backward", ["ArrowDown"], () => {if(this.pov) this.player.move_backward(this.maze)});
         this.new_line();
-        this.key_triggered_button("Turn Left", ["ArrowLeft"], () => this.player.turn_left());
+        this.key_triggered_button("Turn Left", ["ArrowLeft"], () => {if(this.pov) this.player.turn_left()});
         this.new_line();
-        this.key_triggered_button("Turn Right", ["ArrowRight"], () => this.player.turn_right());
+        this.key_triggered_button("Turn Right", ["ArrowRight"], () => {if(this.pov) this.player.turn_right()});
         this.new_line();
         // this.key_triggered_button("Toggle Map View", ["p"], () => { this.pov = !this.pov });
         this.key_triggered_button("Toggle Map View", ["p"], () => {
