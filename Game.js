@@ -214,7 +214,7 @@ export class Game extends Scene {
         // Display the player, egg, and maze
         this.player.display(context, program_state);
         this.maze.display(context, program_state);
-        if (program_state.animation_time - this.start_round_time > 6000) { // After 6 seconds render the egg
+        if (this.start_round_time && program_state.animation_time - this.start_round_time > 6000) { // After 6 seconds render the egg
             this.egg.display(context, program_state);
             this.egg.update_egg(this.maze, this.player.get_position());
             this.LoseGameBecauseOfEgg();
