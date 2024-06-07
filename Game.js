@@ -70,6 +70,7 @@ export class Game extends Scene {
             document.getElementById('winMenu').classList.add('hidden');
             document.getElementById('startMenu').classList.remove('hidden');
             document.body.classList.remove('transparent-box');
+           // document.body.style.backgroundImage="url('./assets/hall.png')"
 
             this.count_rounds = 0;
             this.seconds = 0;
