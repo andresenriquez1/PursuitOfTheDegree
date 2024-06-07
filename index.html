@@ -54,8 +54,8 @@
             background-color: #0056b3;
         }
         #loseMenu {
-            background-color: black;
-            color: red;
+            background-color: white;
+            color: black;
             text-align: center;
             padding: 20px;
             border-radius: 10px;
@@ -65,16 +65,22 @@
             padding: 20px 0;
         }
         #loseMenu button {
-            margin: 10px;
+            margin-top: 20px;
+            margin-right: auto;
+            margin-left: auto;
             padding: 10px 20px;
-            background-color: red;
-            color: black;
+            background-color: #007BFF;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         #loseMenu button:hover {
             background-color: darkred;
+        }
+        .btn-wrap {
+            display: flex;
+            flex-direction: row;
         }
     </style>
 </head>
@@ -109,8 +115,9 @@
 <div id="loseMenu" class="centered-menu hidden">
     <h1>Game Over, You got Egged</h1>
     <img id="losingDisplay" src="./assets/Egg.png" alt="Losing">
-    
-    <button id="quitLose" class="menu-button">Back to Main Menu</button>
+    <div id="btn-wrap">    
+        <button id="quitLose" class="menu-button">Back to Main Menu</button>
+    </div>
 </div>
 
 <div class="canvas-widget hidden" id="mainCanvas"></div>
