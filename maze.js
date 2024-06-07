@@ -36,6 +36,8 @@ export class Maze {
         this.start_position = vec3(0,1,0);
         this.generateMaze();
         this.placeKey();
+
+
         // const mazeGenerator = new BinaryTreeMaze(this.width, this.height);
         // this.maze_layout = mazeGenerator.generate();
 
@@ -75,7 +77,7 @@ export class Maze {
      generateMaze() {
      
         const mazeGenerator = new BinaryTreeMaze(this.width, this.height);
-        this.maze_layout = mazeGenerator.generate();
+        this.maze_layout = mazeGenerator.generateMaze();
          // Set start point at top left (1, 1)
          this.maze_layout[0][0] = 1;
          this.maze_layout[0][1] = 1;
