@@ -29,7 +29,7 @@ export class Game extends Scene {
         };
 
         
-        this.MenuStart = document.getElementById('startMenu');
+        this.Menu = document.getElementById('Menu');
         this.StartGame = document.getElementById('startGame');
         this.mainPage = document.getElementById('mainCanvas');
 
@@ -50,25 +50,25 @@ export class Game extends Scene {
             this.initializeGame();
             this.started = true;
             this.start_round_time = performance.now(); // Record the game start time
-            this.MenuStart.classList.add('hidden');
+            this.Menu.classList.add('hidden');
             this.mainPage.classList.remove('hidden');
             document.body.classList.add('transparent-box'); // Change background to solid color
         };
 
         this.howToPlay.onclick = () => {
-            this.MenuStart.classList.add('hidden');
+            this.Menu.classList.add('hidden');
             this.howToPlayText.classList.remove('hidden');
         };
 
         this.GoBack.onclick = () => {
-            this.MenuStart.classList.remove('hidden');
+            this.Menu.classList.remove('hidden');
             this.howToPlayText.classList.add('hidden');
         };
 
 
         this.quit_win_btn.onclick = () => {
             document.getElementById('winMenu').classList.add('hidden');
-            document.getElementById('startMenu').classList.remove('hidden');
+            document.getElementById('Menu').classList.remove('hidden');
             document.body.classList.remove('transparent-box');
            // document.body.style.backgroundImage="url('./assets/hall.png')"
 
@@ -82,7 +82,7 @@ export class Game extends Scene {
       
         this.quit_lose_btn.onclick = () => {
             document.getElementById('loseMenu').classList.add('hidden');
-            document.getElementById('startMenu').classList.remove('hidden');
+            document.getElementById('Menu').classList.remove('hidden');
             document.body.classList.remove('transparent-box'); // Change background to solid color
 
 
