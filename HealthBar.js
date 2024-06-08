@@ -1,7 +1,7 @@
 import { defs, tiny } from './examples/common.js';
 const { vec3, Mat4, Shape, Material, hex_color } = tiny;
 const { Cube, Phong_Shader } = defs;
-
+//We did not end up using this 
 export class HealthBar {
     constructor(max_health) {
         this.max_health = max_health;
