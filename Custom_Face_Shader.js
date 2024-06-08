@@ -1,6 +1,6 @@
 import { tiny } from './examples/common.js';
 const { Shader } = tiny;
-
+//this did not end up working
 export class Custom_Face_Shader extends Shader {
     update_GPU(context, gpu_addresses, gpu_state, model_transform, material) {
         const [P, C, M] = [gpu_state.projection_transform, gpu_state.camera_inverse, model_transform],
